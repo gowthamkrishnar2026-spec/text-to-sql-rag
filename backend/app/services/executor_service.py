@@ -1,6 +1,8 @@
 import time
 import logging
 from typing import Dict, Any, List
+from decimal import Decimal
+import datetime
 from sqlalchemy import text
 from app.db.session import engine
 from app.services.sql_validator import sanitize_and_validate_sql, SQLValidationError
@@ -34,11 +36,13 @@ class SQLExecutorService:
                     row_dict = {}
                     for idx, col_name in enumerate(columns):
                         val = row[idx]
-                        # Format numbers/dates safely
-                        if hasattr(val, 'isoformat'):
+                        # Format Decimal/numbers/dates safely for JSON serialization
+                        if isinstance(val, (datetime.date, datetime.datetime, datetime.time)):
                             val = val.isoformat()
-                        elif isinstance(val, (int, float)):
-                            val = float(val) if isinstance(val, float) else val
+                        elif isinstance(val, Decimal):
+                            val = float(val)
+                        elif isinstance(val, float):
+                            val = float(val)
                         row_dict[col_name] = val
                     rows.append(row_dict)
 
@@ -95,7 +99,7 @@ class SQLExecutorService:
         sample_row = rows[0]
         for col in columns:
             val = sample_row.get(col)
-            if isinstance(val, (int, float)):
+            if isinstance(val, (int, float, Decimal)):
                 numeric_cols.append(col)
             elif isinstance(val, str):
                 string_cols.append(col)

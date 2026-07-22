@@ -56,15 +56,17 @@ class ExportRequest(BaseModel):
     sql_query: Optional[str] = ""
     format: str = Field(..., example="csv") # csv, excel, pdf
 
+from sqlalchemy import text
+
 @router.get("/health")
 def health_check():
     """Health check endpoint confirming DB connection and system state."""
     db_connected = False
     try:
         with engine.connect() as conn:
-            conn.execute("SELECT 1;")
+            conn.execute(text("SELECT 1;"))
             db_connected = True
-    except Exception:
+    except Exception as e:
         db_connected = False
 
     return {

@@ -1,4 +1,5 @@
 import io
+import html
 import pandas as pd
 from typing import List, Dict, Any
 
@@ -49,12 +50,13 @@ class ExportService:
             backColor=colors.HexColor('#F1F5F9'),
             spaceAfter=14
         )
-        story.append(Paragraph(f"<b>Executed SQL:</b> <br/><code>{sql_query}</code>", sql_style))
+        escaped_sql = html.escape(sql_query)
+        story.append(Paragraph(f"<b>Executed SQL:</b> <br/><code>{escaped_sql}</code>", sql_style))
 
-        # Convert table data
-        table_data = [columns]
+        # Convert table data safely
+        table_data = [[html.escape(str(col)) for col in columns]]
         for row in rows:
-            table_data.append([str(row.get(col, '')) for col in columns])
+            table_data.append([html.escape(str(row.get(col, ''))) for col in columns])
 
         t = Table(table_data)
         t.setStyle(TableStyle([
