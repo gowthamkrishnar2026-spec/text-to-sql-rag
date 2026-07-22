@@ -1,12 +1,18 @@
 {
-  "venvPath": "/Users/gowthamkrishnar/Text To SQL /backend",
-  "venv": "venv",
-  "extraPaths": [
-    "/Users/gowthamkrishnar/Text To SQL /backend",
-    "/Users/gowthamkrishnar/Text To SQL /backend/venv/lib/python3.13/site-packages",
-    "backend",
-    "backend/venv/lib/python3.13/site-packages"
+  "executionEnvironments": [
+    {
+      "root": "backend",
+      "extraPaths": [
+        ".",
+        "app",
+        "venv/lib/python3.13/site-packages",
+        "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages"
+      ]
+    }
   ],
+  "venvPath": "backend",
+  "venv": "venv",
   "reportMissingImports": "none",
-  "reportMissingModuleSource": "none"
+  "reportMissingModuleSource": "none",
+  "reportMissingTypeStubs": false
 }

@@ -1,19 +1,18 @@
 {
-  "python.defaultInterpreterPath": "/Users/gowthamkrishnar/Text To SQL /backend/venv/bin/python",
+  "python.defaultInterpreterPath": "${workspaceFolder}/backend/venv/bin/python",
   "python.analysis.extraPaths": [
-    "/Users/gowthamkrishnar/Text To SQL /backend",
-    "/Users/gowthamkrishnar/Text To SQL /backend/venv/lib/python3.13/site-packages",
-    "backend",
-    "backend/venv/lib/python3.13/site-packages"
+    "${workspaceFolder}/backend",
+    "${workspaceFolder}/backend/venv/lib/python3.13/site-packages",
+    "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages"
   ],
   "python.autoComplete.extraPaths": [
-    "/Users/gowthamkrishnar/Text To SQL /backend",
-    "/Users/gowthamkrishnar/Text To SQL /backend/venv/lib/python3.13/site-packages",
-    "backend",
-    "backend/venv/lib/python3.13/site-packages"
+    "${workspaceFolder}/backend",
+    "${workspaceFolder}/backend/venv/lib/python3.13/site-packages",
+    "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages"
   ],
   "python.analysis.diagnosticSeverityOverrides": {
     "reportMissingImports": "none",
-    "reportMissingModuleSource": "none"
+    "reportMissingModuleSource": "none",
+    "reportMissingTypeStubs": "none"
   }
 }
