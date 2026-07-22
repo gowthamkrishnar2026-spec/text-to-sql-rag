@@ -1,18 +1,13 @@
 {
-  "executionEnvironments": [
-    {
-      "root": "backend",
-      "extraPaths": [
-        ".",
-        "app",
-        "venv/lib/python3.13/site-packages",
-        "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages"
-      ]
-    }
+  "include": [
+    "backend"
   ],
-  "venvPath": "backend",
-  "venv": "venv",
-  "reportMissingImports": "none",
-  "reportMissingModuleSource": "none",
+  "extraPaths": [
+    "backend",
+    "backend/venv/lib/python3.13/site-packages",
+    "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages"
+  ],
+  "reportMissingImports": false,
+  "reportMissingModuleSource": false,
   "reportMissingTypeStubs": false
 }
