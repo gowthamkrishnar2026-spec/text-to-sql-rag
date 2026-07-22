@@ -30,7 +30,7 @@ services:
       POSTGRES_DB: text2sql_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgrespassword
-      HF_MODEL_NAME: defog/sqlcoder-7b-2
+      HF_MODEL_NAME: deepseek-ai/DeepSeek-Coder-33B-instruct
     ports:
       - "8000:8000"
     volumes:

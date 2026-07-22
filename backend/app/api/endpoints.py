@@ -72,7 +72,7 @@ def health_check():
     return {
         "status": "online",
         "database_connected": db_connected,
-        "ai_model": settings.HF_MODEL_NAME if hasattr(settings, 'HF_MODEL_NAME') else "cssuchahn/sqlcoder-7b-2",
+        "ai_model": ai_service.model_name,
         "timestamp": datetime.now().isoformat()
     }
 

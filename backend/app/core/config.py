@@ -16,9 +16,11 @@ class Settings(BaseSettings):
     def DATABASE_URL(self) -> str:
         return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_SERVER}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
 
-    # AI Model Settings
-    HF_MODEL_NAME: str = os.getenv("HF_MODEL_NAME", "cssuchahn/sqlcoder-7b-2")
+    # AI SOTA Model Settings
+    HF_MODEL_NAME: str = os.getenv("HF_MODEL_NAME", "deepseek-ai/DeepSeek-Coder-33B-instruct")
     HF_TOKEN: str = os.getenv("HF_TOKEN", "")
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    DEEPSEEK_API_KEY: str = os.getenv("DEEPSEEK_API_KEY", "")
     ENABLE_LOCAL_MODEL: bool = os.getenv("ENABLE_LOCAL_MODEL", "false").lower() == "true"
     
     # CORS
