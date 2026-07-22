@@ -9,6 +9,7 @@ from app.services.executor_service import executor_service
 from app.services.export_service import export_service
 from app.services.sql_validator import sanitize_and_validate_sql, SQLValidationError
 from app.db.session import inspect_db_schema, engine
+from app.core.config import settings
 
 router = APIRouter()
 
