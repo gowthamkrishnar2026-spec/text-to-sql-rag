@@ -39,7 +39,7 @@ class TextToSQLAIService:
         schema_prompt = format_schema_for_prompt()
         prompt_clean = natural_language_prompt.strip()
 
-        # 1. DeepSeek API / OpenAI API Provider Integration (if API key available)
+        # 1. DeepSeek API Provider Integration (if API key provided)
         if self.deepseek_key:
             try:
                 headers = {
@@ -61,7 +61,7 @@ class TextToSQLAIService:
             except Exception as e:
                 logger.warning(f"DeepSeek API Exception: {e}")
 
-        # 2. Hugging Face Inference API for DeepSeek-Coder-33B / Qwen2.5-Coder
+        # 2. Hugging Face Inference API
         if self.hf_token:
             try:
                 url = f"https://api-inference.huggingface.co/models/{self.model_name}"
@@ -102,18 +102,34 @@ class TextToSQLAIService:
     def _sota_deepseek_translator(self, prompt: str, schema_str: str) -> Tuple[str, str]:
         """
         Frontier SOTA Neural-Semantic Translator.
-        Handles complex multi-clause prompts, comparators, nested aggregates, and joins.
+        Accurately parses ranges (between 7 to 9, from 7 and 9), single comparators,
+        target tables, columns, aggregations, ordering, and multi-table joins.
         """
         p = prompt.lower().strip()
         schema_dict = inspect_db_schema()
 
-        # 1. Students / CGPA / Academic Performance
+        # ---------------------------------------------------------------------
+        # 1. STUDENTS / CGPA / ACADEMIC PERFORMANCE (Handles Range & Comparators)
+        # ---------------------------------------------------------------------
         if "student" in p or "cgpa" in p or "gpa" in p or "grade" in p:
+            # Range check: "between 7 to 9", "between 7 and 9", "from 7 to 9", "7 to 9"
+            range_match = re.search(r"(?:between|from|in range of|ranging from)\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
+            if not range_match:
+                range_match = re.search(r"(?:cgpa|gpa)\s*(?:of|is)?\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
+
+            if range_match:
+                v1 = float(range_match.group(1))
+                v2 = float(range_match.group(2))
+                min_v, max_v = min(v1, v2), max(v1, v2)
+                sql = f"SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students WHERE cgpa BETWEEN {min_v} AND {max_v} ORDER BY cgpa DESC;"
+                exp = f"Queries all student records whose CGPA falls in the range between {min_v} and {max_v}, sorted from highest to lowest."
+                return sql, exp
+
+            # Single threshold check
             num_match = re.search(r"(\d+(?:\.\d+)?)", p)
             val = num_match.group(1) if num_match else None
 
-            # Detect comparison operators
-            if any(w in p for w in ["above", "greater", ">", "more", "higher", "exceed", "over", "top"]):
+            if any(w in p for w in ["above", "greater", ">", "more", "higher", "exceed", "over"]):
                 if val:
                     sql = f"SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students WHERE cgpa > {val} ORDER BY cgpa DESC;"
                     exp = f"Queries all student details whose CGPA exceeds {val}, ordered from highest to lowest."
@@ -135,8 +151,20 @@ class TextToSQLAIService:
             exp = "Fetches complete student roster sorted by CGPA."
             return sql, exp
 
-        # 2. Products / Sales / E-Commerce Revenue
-        if "product" in p or "sale" in p or "order" in p or "revenue" in p or "item" in p:
+        # ---------------------------------------------------------------------
+        # 2. PRODUCTS / SALES / E-COMMERCE REVENUE
+        # ---------------------------------------------------------------------
+        if "product" in p or "sale" in p or "order" in p or "revenue" in p or "price" in p or "stock" in p:
+            # Price range check
+            range_match = re.search(r"(?:between|from|in range of)\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
+            if range_match and ("price" in p or "cost" in p):
+                v1 = float(range_match.group(1))
+                v2 = float(range_match.group(2))
+                min_v, max_v = min(v1, v2), max(v1, v2)
+                sql = f"SELECT product_id, product_name, category, unit_price, stock_quantity FROM products WHERE unit_price BETWEEN {min_v} AND {max_v} ORDER BY unit_price DESC;"
+                exp = f"Retrieves products priced between ${min_v} and ${max_v}."
+                return sql, exp
+
             if "revenue" in p or "top" in p or "sale" in p or "best" in p or "highest" in p:
                 limit_match = re.search(r"(\d+)", p)
                 lim = limit_match.group(1) if limit_match else "5"
@@ -160,8 +188,19 @@ LIMIT {lim};"""
             exp = "Retrieves all products listed by price in descending order."
             return sql, exp
 
-        # 3. Employees / Corporate Salaries / Departments
+        # ---------------------------------------------------------------------
+        # 3. EMPLOYEES / CORPORATE SALARIES / DEPARTMENTS
+        # ---------------------------------------------------------------------
         if "employee" in p or "salary" in p or "department" in p or "hire" in p:
+            range_match = re.search(r"(?:between|from|in range of)\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
+            if range_match and "salary" in p:
+                v1 = float(range_match.group(1))
+                v2 = float(range_match.group(2))
+                min_v, max_v = min(v1, v2), max(v1, v2)
+                sql = f"SELECT e.emp_name, e.job_title, d.dept_name, e.salary FROM employees e JOIN corp_departments d ON e.dept_id = d.dept_id WHERE e.salary BETWEEN {min_v} AND {max_v} ORDER BY e.salary DESC;"
+                exp = f"Filters employees with salary between ${min_v} and ${max_v}."
+                return sql, exp
+
             if "avg" in p or "average" in p:
                 if "department" in p:
                     sql = """SELECT d.dept_name, ROUND(AVG(e.salary), 2) AS average_salary, COUNT(e.emp_id) AS total_employees 
@@ -185,7 +224,9 @@ ORDER BY average_salary DESC;"""
             exp = "Lists all employees with their corporate department details."
             return sql, exp
 
-        # 4. Courses & Instructors
+        # ---------------------------------------------------------------------
+        # 4. COURSES & INSTRUCTORS
+        # ---------------------------------------------------------------------
         if "course" in p or "enroll" in p or "instructor" in p:
             sql = """SELECT c.course_code, c.course_title, COUNT(e.enrollment_id) AS student_count 
 FROM courses c 
@@ -227,7 +268,12 @@ ORDER BY student_count DESC;"""
         if "JOIN" in sql_upper:
             parts.append("joins schema tables")
 
-        if "WHERE" in sql_upper:
+        if "BETWEEN" in sql_upper:
+            between_match = re.search(r"BETWEEN\s+(\d+(?:\.\d+)?)\s+AND\s+(\d+(?:\.\d+)?)", sql_upper)
+            if between_match:
+                parts.append(f"filters range between {between_match.group(1)} and {between_match.group(2)}")
+
+        elif "WHERE" in sql_upper:
             where_part = re.search(r"WHERE\s+(.*?)(?:GROUP BY|ORDER BY|LIMIT|;|$)", sql_upper, re.DOTALL)
             if where_part:
                 cond = where_part.group(1).strip().lower()
