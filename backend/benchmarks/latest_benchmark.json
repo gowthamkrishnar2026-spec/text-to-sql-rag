@@ -1,0 +1,3336 @@
+{
+  "run_timestamp": "2026-10-15T03:57:25.859678",
+  "api_url": "http://localhost:8000/api",
+  "total_cases": 30,
+  "metrics": {
+    "generation_success_rate": 0.9666666666666667,
+    "execution_accuracy": 0.8333333333333334,
+    "column_match_rate": 0.6333333333333333,
+    "exact_match_rate": 0.2,
+    "avg_latency_ms": 5631.633333333334,
+    "blocked_count": 0
+  },
+  "cases": [
+    {
+      "id": "UNI_001",
+      "domain": "University",
+      "difficulty": "easy",
+      "prompt": "Show all students",
+      "gold_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+      "generated_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+      "latency_ms": 2109.1,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": true,
+      "generated_row_count": 100,
+      "gold_row_count": 100,
+      "columns": [
+        "student_id",
+        "first_name",
+        "last_name",
+        "email",
+        "department_id",
+        "cgpa",
+        "enrollment_year"
+      ],
+      "records": [
+        {
+          "student_id": 1,
+          "first_name": "Aarav",
+          "last_name": "Sharma",
+          "email": "aarav.sharma@student.edu",
+          "department_id": 1,
+          "cgpa": 9.2,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 2,
+          "first_name": "Ananya",
+          "last_name": "Roy",
+          "email": "ananya.roy@student.edu",
+          "department_id": 2,
+          "cgpa": 8.8,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 3,
+          "first_name": "Rohan",
+          "last_name": "Verma",
+          "email": "rohan.verma@student.edu",
+          "department_id": 1,
+          "cgpa": 7.5,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 4,
+          "first_name": "Priya",
+          "last_name": "Nair",
+          "email": "priya.nair@student.edu",
+          "department_id": 3,
+          "cgpa": 9.5,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 5,
+          "first_name": "Vikram",
+          "last_name": "Singh",
+          "email": "vikram.singh@student.edu",
+          "department_id": 2,
+          "cgpa": 8.1,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 6,
+          "first_name": "Sneha",
+          "last_name": "Patel",
+          "email": "sneha.patel@student.edu",
+          "department_id": 4,
+          "cgpa": 9.7,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 7,
+          "first_name": "Rahul",
+          "last_name": "Deshmukh",
+          "email": "rahul.d@student.edu",
+          "department_id": 5,
+          "cgpa": 6.9,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 8,
+          "first_name": "Kavya",
+          "last_name": "Iyer",
+          "email": "kavya.iyer@student.edu",
+          "department_id": 1,
+          "cgpa": 8.9,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 9,
+          "first_name": "Arjun",
+          "last_name": "Mehta",
+          "email": "arjun.mehta@student.edu",
+          "department_id": 3,
+          "cgpa": 7.8,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 10,
+          "first_name": "Diya",
+          "last_name": "Gupta",
+          "email": "diya.gupta@student.edu",
+          "department_id": 2,
+          "cgpa": 9.4,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 11,
+          "first_name": "Timmothy",
+          "last_name": "Ward",
+          "email": "timmothy.ward11@student.edu",
+          "department_id": 1,
+          "cgpa": 8.61,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 12,
+          "first_name": "Hobart",
+          "last_name": "Balistreri",
+          "email": "hobart.balistreri12@student.edu",
+          "department_id": 2,
+          "cgpa": 8.95,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 13,
+          "first_name": "Warren",
+          "last_name": "Gleichner",
+          "email": "warren.gleichner13@student.edu",
+          "department_id": 3,
+          "cgpa": 7.24,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 14,
+          "first_name": "Jarvis",
+          "last_name": "Carroll",
+          "email": "jarvis.carroll14@student.edu",
+          "department_id": 4,
+          "cgpa": 8.73,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 15,
+          "first_name": "Milton",
+          "last_name": "Christiansen",
+          "email": "milton.christiansen15@student.edu",
+          "department_id": 5,
+          "cgpa": 6.79,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 16,
+          "first_name": "Stanford",
+          "last_name": "Rogahn",
+          "email": "stanford.rogahn16@student.edu",
+          "department_id": 1,
+          "cgpa": 6.6,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 17,
+          "first_name": "Frida",
+          "last_name": "Huel",
+          "email": "frida.huel17@student.edu",
+          "department_id": 2,
+          "cgpa": 7.22,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 18,
+          "first_name": "Delaney",
+          "last_name": "Ankunding",
+          "email": "delaney.ankunding18@student.edu",
+          "department_id": 3,
+          "cgpa": 8.49,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 19,
+          "first_name": "Reva",
+          "last_name": "Osinski",
+          "email": "reva.osinski19@student.edu",
+          "department_id": 4,
+          "cgpa": 7.16,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 20,
+          "first_name": "Helga",
+          "last_name": "Mohr",
+          "email": "helga.mohr20@student.edu",
+          "department_id": 5,
+          "cgpa": 7.88,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 21,
+          "first_name": "Gregg",
+          "last_name": "Schuppe",
+          "email": "gregg.schuppe21@student.edu",
+          "department_id": 1,
+          "cgpa": 8.44,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 22,
+          "first_name": "Orrin",
+          "last_name": "Kemmer",
+          "email": "orrin.kemmer22@student.edu",
+          "department_id": 2,
+          "cgpa": 9.0,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 23,
+          "first_name": "Deon",
+          "last_name": "Weimann",
+          "email": "deon.weimann23@student.edu",
+          "department_id": 3,
+          "cgpa": 8.8,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 24,
+          "first_name": "Jordy",
+          "last_name": "Rempel",
+          "email": "jordy.rempel24@student.edu",
+          "department_id": 4,
+          "cgpa": 7.42,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 25,
+          "first_name": "Jett",
+          "last_name": "Jaskolski",
+          "email": "jett.jaskolski25@student.edu",
+          "department_id": 5,
+          "cgpa": 9.66,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 26,
+          "first_name": "Emma",
+          "last_name": "Rohan",
+          "email": "emma.rohan26@student.edu",
+          "department_id": 1,
+          "cgpa": 6.84,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 27,
+          "first_name": "Louvenia",
+          "last_name": "Hansen",
+          "email": "louvenia.hansen27@student.edu",
+          "department_id": 2,
+          "cgpa": 6.82,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 28,
+          "first_name": "Rhea",
+          "last_name": "Bergnaum",
+          "email": "rhea.bergnaum28@student.edu",
+          "department_id": 3,
+          "cgpa": 8.49,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 29,
+          "first_name": "David",
+          "last_name": "Gorczany",
+          "email": "david.gorczany29@student.edu",
+          "department_id": 4,
+          "cgpa": 8.91,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 30,
+          "first_name": "Lucile",
+          "last_name": "Gottlieb",
+          "email": "lucile.gottlieb30@student.edu",
+          "department_id": 5,
+          "cgpa": 6.91,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 31,
+          "first_name": "Antonietta",
+          "last_name": "Fahey",
+          "email": "antonietta.fahey31@student.edu",
+          "department_id": 1,
+          "cgpa": 6.76,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 32,
+          "first_name": "Rupert",
+          "last_name": "Marks",
+          "email": "rupert.marks32@student.edu",
+          "department_id": 2,
+          "cgpa": 9.24,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 33,
+          "first_name": "Julia",
+          "last_name": "Balistreri",
+          "email": "julia.balistreri33@student.edu",
+          "department_id": 3,
+          "cgpa": 9.42,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 34,
+          "first_name": "Christy",
+          "last_name": "Huels",
+          "email": "christy.huels34@student.edu",
+          "department_id": 4,
+          "cgpa": 8.41,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 35,
+          "first_name": "Adella",
+          "last_name": "Krajcik",
+          "email": "adella.krajcik35@student.edu",
+          "department_id": 5,
+          "cgpa": 6.65,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 36,
+          "first_name": "Isac",
+          "last_name": "Fadel",
+          "email": "isac.fadel36@student.edu",
+          "department_id": 1,
+          "cgpa": 9.05,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 37,
+          "first_name": "Ferne",
+          "last_name": "Weimann",
+          "email": "ferne.weimann37@student.edu",
+          "department_id": 2,
+          "cgpa": 9.32,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 38,
+          "first_name": "Misael",
+          "last_name": "Will",
+          "email": "misael.will38@student.edu",
+          "department_id": 3,
+          "cgpa": 7.75,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 39,
+          "first_name": "Fanny",
+          "last_name": "Haley",
+          "email": "fanny.haley39@student.edu",
+          "department_id": 4,
+          "cgpa": 8.6,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 40,
+          "first_name": "Eugene",
+          "last_name": "Tremblay",
+          "email": "eugene.tremblay40@student.edu",
+          "department_id": 5,
+          "cgpa": 7.04,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 41,
+          "first_name": "Linda",
+          "last_name": "Smith",
+          "email": "linda.smith41@student.edu",
+          "department_id": 1,
+          "cgpa": 7.19,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 42,
+          "first_name": "Tracy",
+          "last_name": "Kim",
+          "email": "tracy.kim42@student.edu",
+          "department_id": 2,
+          "cgpa": 8.82,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 43,
+          "first_name": "Shiela",
+          "last_name": "Jones",
+          "email": "shiela.jones43@student.edu",
+          "department_id": 3,
+          "cgpa": 8.51,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 44,
+          "first_name": "Dinesh",
+          "last_name": "Kumar",
+          "email": "dinesh.kumar44@student.edu",
+          "department_id": 4,
+          "cgpa": 8.26,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 45,
+          "first_name": "Paul",
+          "last_name": "Gompers",
+          "email": "paul.gompers45@student.edu",
+          "department_id": 5,
+          "cgpa": 7.04,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 46,
+          "first_name": "Andy",
+          "last_name": "Schultz",
+          "email": "andy.schultz46@student.edu",
+          "department_id": 1,
+          "cgpa": 7.39,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 47,
+          "first_name": "Lisa",
+          "last_name": "Apap",
+          "email": "lisa.apap47@student.edu",
+          "department_id": 2,
+          "cgpa": 7.22,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 48,
+          "first_name": "Jandy",
+          "last_name": "Nelson",
+          "email": "jandy.nelson48@student.edu",
+          "department_id": 3,
+          "cgpa": 9.28,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 49,
+          "first_name": "Eric",
+          "last_name": "Tai",
+          "email": "eric.tai49@student.edu",
+          "department_id": 4,
+          "cgpa": 7.26,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 50,
+          "first_name": "Derek",
+          "last_name": "Lee",
+          "email": "derek.lee50@student.edu",
+          "department_id": 5,
+          "cgpa": 9.16,
+          "enrollment_year": 2023
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_002",
+      "domain": "University",
+      "difficulty": "easy",
+      "prompt": "Show all students with CGPA greater than 8",
+      "gold_sql": "SELECT student_id, first_name, last_name, cgpa FROM students WHERE cgpa > 8.0 ORDER BY cgpa DESC;",
+      "generated_sql": "SELECT student_id, first_name, last_name, email, cgpa, enrollment_year\nFROM students\nWHERE cgpa > 8.0\nORDER BY cgpa DESC;",
+      "latency_ms": 2086.1,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 59,
+      "gold_row_count": 59,
+      "columns": [
+        "student_id",
+        "first_name",
+        "last_name",
+        "email",
+        "cgpa",
+        "enrollment_year"
+      ],
+      "records": [
+        {
+          "student_id": 61,
+          "first_name": "Michael",
+          "last_name": "Woods",
+          "email": "michael.woods61@student.edu",
+          "cgpa": 9.79,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 98,
+          "first_name": "Wunderli",
+          "last_name": "Student",
+          "email": "wunderli.student98@student.edu",
+          "cgpa": 9.78,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 76,
+          "first_name": "Rumat",
+          "last_name": "Student",
+          "email": "rumat.student76@student.edu",
+          "cgpa": 9.71,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 6,
+          "first_name": "Sneha",
+          "last_name": "Patel",
+          "email": "sneha.patel@student.edu",
+          "cgpa": 9.7,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 95,
+          "first_name": "Sahm",
+          "last_name": "Student",
+          "email": "sahm.student95@student.edu",
+          "cgpa": 9.68,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 25,
+          "first_name": "Jett",
+          "last_name": "Jaskolski",
+          "email": "jett.jaskolski25@student.edu",
+          "cgpa": 9.66,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 75,
+          "first_name": "Schrefl",
+          "last_name": "Student",
+          "email": "schrefl.student75@student.edu",
+          "cgpa": 9.65,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 83,
+          "first_name": "Coppens",
+          "last_name": "Student",
+          "email": "coppens.student83@student.edu",
+          "cgpa": 9.53,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 52,
+          "first_name": "Steven",
+          "last_name": "Davis",
+          "email": "steven.davis52@student.edu",
+          "cgpa": 9.51,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 4,
+          "first_name": "Priya",
+          "last_name": "Nair",
+          "email": "priya.nair@student.edu",
+          "cgpa": 9.5,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 33,
+          "first_name": "Julia",
+          "last_name": "Balistreri",
+          "email": "julia.balistreri33@student.edu",
+          "cgpa": 9.42,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 10,
+          "first_name": "Diya",
+          "last_name": "Gupta",
+          "email": "diya.gupta@student.edu",
+          "cgpa": 9.4,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 86,
+          "first_name": "Marek",
+          "last_name": "Student",
+          "email": "marek.student86@student.edu",
+          "cgpa": 9.4,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 88,
+          "first_name": "Hawthorne",
+          "last_name": "Student",
+          "email": "hawthorne.student88@student.edu",
+          "cgpa": 9.4,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 53,
+          "first_name": "Charles",
+          "last_name": "Norris",
+          "email": "charles.norris53@student.edu",
+          "cgpa": 9.39,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 94,
+          "first_name": "Inoue",
+          "last_name": "Student",
+          "email": "inoue.student94@student.edu",
+          "cgpa": 9.38,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 78,
+          "first_name": "Moszkowski",
+          "last_name": "Student",
+          "email": "moszkowski.student78@student.edu",
+          "cgpa": 9.37,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 69,
+          "first_name": "Lisa",
+          "last_name": "Cheng",
+          "email": "lisa.cheng69@student.edu",
+          "cgpa": 9.34,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 37,
+          "first_name": "Ferne",
+          "last_name": "Weimann",
+          "email": "ferne.weimann37@student.edu",
+          "cgpa": 9.32,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 79,
+          "first_name": "Prieto",
+          "last_name": "Student",
+          "email": "prieto.student79@student.edu",
+          "cgpa": 9.28,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 48,
+          "first_name": "Jandy",
+          "last_name": "Nelson",
+          "email": "jandy.nelson48@student.edu",
+          "cgpa": 9.28,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 32,
+          "first_name": "Rupert",
+          "last_name": "Marks",
+          "email": "rupert.marks32@student.edu",
+          "cgpa": 9.24,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 1,
+          "first_name": "Aarav",
+          "last_name": "Sharma",
+          "email": "aarav.sharma@student.edu",
+          "cgpa": 9.2,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 90,
+          "first_name": "Eguchi",
+          "last_name": "Student",
+          "email": "eguchi.student90@student.edu",
+          "cgpa": 9.19,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 50,
+          "first_name": "Derek",
+          "last_name": "Lee",
+          "email": "derek.lee50@student.edu",
+          "cgpa": 9.16,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 65,
+          "first_name": "Eric",
+          "last_name": "Pang",
+          "email": "eric.pang65@student.edu",
+          "cgpa": 9.11,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 36,
+          "first_name": "Isac",
+          "last_name": "Fadel",
+          "email": "isac.fadel36@student.edu",
+          "cgpa": 9.05,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 91,
+          "first_name": "Moei",
+          "last_name": "Student",
+          "email": "moei.student91@student.edu",
+          "cgpa": 9.03,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 22,
+          "first_name": "Orrin",
+          "last_name": "Kemmer",
+          "email": "orrin.kemmer22@student.edu",
+          "cgpa": 9.0,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 63,
+          "first_name": "Stacy",
+          "last_name": "Prater",
+          "email": "stacy.prater63@student.edu",
+          "cgpa": 8.99,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 96,
+          "first_name": "Tomason",
+          "last_name": "Student",
+          "email": "tomason.student96@student.edu",
+          "cgpa": 8.99,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 72,
+          "first_name": "William",
+          "last_name": "Simms",
+          "email": "william.simms72@student.edu",
+          "cgpa": 8.98,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 12,
+          "first_name": "Hobart",
+          "last_name": "Balistreri",
+          "email": "hobart.balistreri12@student.edu",
+          "cgpa": 8.95,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 29,
+          "first_name": "David",
+          "last_name": "Gorczany",
+          "email": "david.gorczany29@student.edu",
+          "cgpa": 8.91,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 8,
+          "first_name": "Kavya",
+          "last_name": "Iyer",
+          "email": "kavya.iyer@student.edu",
+          "cgpa": 8.9,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 97,
+          "first_name": "Karande",
+          "last_name": "Student",
+          "email": "karande.student97@student.edu",
+          "cgpa": 8.85,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 42,
+          "first_name": "Tracy",
+          "last_name": "Kim",
+          "email": "tracy.kim42@student.edu",
+          "cgpa": 8.82,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 2,
+          "first_name": "Ananya",
+          "last_name": "Roy",
+          "email": "ananya.roy@student.edu",
+          "cgpa": 8.8,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 23,
+          "first_name": "Deon",
+          "last_name": "Weimann",
+          "email": "deon.weimann23@student.edu",
+          "cgpa": 8.8,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 71,
+          "first_name": "Eric",
+          "last_name": "Brown",
+          "email": "eric.brown71@student.edu",
+          "cgpa": 8.75,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 70,
+          "first_name": "Sarah",
+          "last_name": "Smith",
+          "email": "sarah.smith70@student.edu",
+          "cgpa": 8.74,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 14,
+          "first_name": "Jarvis",
+          "last_name": "Carroll",
+          "email": "jarvis.carroll14@student.edu",
+          "cgpa": 8.73,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 92,
+          "first_name": "Alfaro",
+          "last_name": "Student",
+          "email": "alfaro.student92@student.edu",
+          "cgpa": 8.68,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 11,
+          "first_name": "Timmothy",
+          "last_name": "Ward",
+          "email": "timmothy.ward11@student.edu",
+          "cgpa": 8.61,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 39,
+          "first_name": "Fanny",
+          "last_name": "Haley",
+          "email": "fanny.haley39@student.edu",
+          "cgpa": 8.6,
+          "enrollment_year": 2022
+        },
+        {
+          "student_id": 43,
+          "first_name": "Shiela",
+          "last_name": "Jones",
+          "email": "shiela.jones43@student.edu",
+          "cgpa": 8.51,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 80,
+          "first_name": "Marcol",
+          "last_name": "Student",
+          "email": "marcol.student80@student.edu",
+          "cgpa": 8.51,
+          "enrollment_year": 2021
+        },
+        {
+          "student_id": 18,
+          "first_name": "Delaney",
+          "last_name": "Ankunding",
+          "email": "delaney.ankunding18@student.edu",
+          "cgpa": 8.49,
+          "enrollment_year": 2024
+        },
+        {
+          "student_id": 28,
+          "first_name": "Rhea",
+          "last_name": "Bergnaum",
+          "email": "rhea.bergnaum28@student.edu",
+          "cgpa": 8.49,
+          "enrollment_year": 2020
+        },
+        {
+          "student_id": 66,
+          "first_name": "Paul",
+          "last_name": "Brody",
+          "email": "paul.brody66@student.edu",
+          "cgpa": 8.47,
+          "enrollment_year": 2023
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_003",
+      "domain": "University",
+      "difficulty": "easy",
+      "prompt": "List all departments",
+      "gold_sql": "SELECT department_id, department_name, building, budget FROM departments;",
+      "generated_sql": "SELECT department_id, department_name, building, budget FROM departments;",
+      "latency_ms": 2473.7,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": true,
+      "generated_row_count": 5,
+      "gold_row_count": 5,
+      "columns": [
+        "department_id",
+        "department_name",
+        "building",
+        "budget"
+      ],
+      "records": [
+        {
+          "department_id": 1,
+          "department_name": "Computer Science",
+          "building": "Turing Hall",
+          "budget": 1200000.0
+        },
+        {
+          "department_id": 2,
+          "department_name": "Data Science",
+          "building": "Ada Lovelace Tower",
+          "budget": 950000.0
+        },
+        {
+          "department_id": 3,
+          "department_name": "Electrical Engineering",
+          "building": "Tesla Center",
+          "budget": 1100000.0
+        },
+        {
+          "department_id": 4,
+          "department_name": "Mathematics",
+          "building": "Ramanujan Block",
+          "budget": 600000.0
+        },
+        {
+          "department_id": 5,
+          "department_name": "Business & Management",
+          "building": "Smith Hall",
+          "budget": 850000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_004",
+      "domain": "University",
+      "difficulty": "medium",
+      "prompt": "Show students enrolled in 2023",
+      "gold_sql": "SELECT student_id, first_name, last_name, cgpa, enrollment_year FROM students WHERE enrollment_year = 2023;",
+      "generated_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students WHERE enrollment_year = 2023;",
+      "latency_ms": 2250.3,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 19,
+      "gold_row_count": 19,
+      "columns": [
+        "student_id",
+        "first_name",
+        "last_name",
+        "email",
+        "department_id",
+        "cgpa",
+        "enrollment_year"
+      ],
+      "records": [
+        {
+          "student_id": 3,
+          "first_name": "Rohan",
+          "last_name": "Verma",
+          "email": "rohan.verma@student.edu",
+          "department_id": 1,
+          "cgpa": 7.5,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 5,
+          "first_name": "Vikram",
+          "last_name": "Singh",
+          "email": "vikram.singh@student.edu",
+          "department_id": 2,
+          "cgpa": 8.1,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 8,
+          "first_name": "Kavya",
+          "last_name": "Iyer",
+          "email": "kavya.iyer@student.edu",
+          "department_id": 1,
+          "cgpa": 8.9,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 15,
+          "first_name": "Milton",
+          "last_name": "Christiansen",
+          "email": "milton.christiansen15@student.edu",
+          "department_id": 5,
+          "cgpa": 6.79,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 20,
+          "first_name": "Helga",
+          "last_name": "Mohr",
+          "email": "helga.mohr20@student.edu",
+          "department_id": 5,
+          "cgpa": 7.88,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 26,
+          "first_name": "Emma",
+          "last_name": "Rohan",
+          "email": "emma.rohan26@student.edu",
+          "department_id": 1,
+          "cgpa": 6.84,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 30,
+          "first_name": "Lucile",
+          "last_name": "Gottlieb",
+          "email": "lucile.gottlieb30@student.edu",
+          "department_id": 5,
+          "cgpa": 6.91,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 38,
+          "first_name": "Misael",
+          "last_name": "Will",
+          "email": "misael.will38@student.edu",
+          "department_id": 3,
+          "cgpa": 7.75,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 45,
+          "first_name": "Paul",
+          "last_name": "Gompers",
+          "email": "paul.gompers45@student.edu",
+          "department_id": 5,
+          "cgpa": 7.04,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 50,
+          "first_name": "Derek",
+          "last_name": "Lee",
+          "email": "derek.lee50@student.edu",
+          "department_id": 5,
+          "cgpa": 9.16,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 54,
+          "first_name": "Susan",
+          "last_name": "Lee",
+          "email": "susan.lee54@student.edu",
+          "department_id": 4,
+          "cgpa": 7.2,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 55,
+          "first_name": "Mark",
+          "last_name": "Schwartz",
+          "email": "mark.schwartz55@student.edu",
+          "department_id": 5,
+          "cgpa": 7.81,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 65,
+          "first_name": "Eric",
+          "last_name": "Pang",
+          "email": "eric.pang65@student.edu",
+          "department_id": 5,
+          "cgpa": 9.11,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 66,
+          "first_name": "Paul",
+          "last_name": "Brody",
+          "email": "paul.brody66@student.edu",
+          "department_id": 1,
+          "cgpa": 8.47,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 67,
+          "first_name": "Eric",
+          "last_name": "Rugh",
+          "email": "eric.rugh67@student.edu",
+          "department_id": 2,
+          "cgpa": 7.76,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 73,
+          "first_name": "Eric",
+          "last_name": "Epp",
+          "email": "eric.epp73@student.edu",
+          "department_id": 3,
+          "cgpa": 6.87,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 89,
+          "first_name": "Leuen",
+          "last_name": "Student",
+          "email": "leuen.student89@student.edu",
+          "department_id": 4,
+          "cgpa": 6.78,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 94,
+          "first_name": "Inoue",
+          "last_name": "Student",
+          "email": "inoue.student94@student.edu",
+          "department_id": 4,
+          "cgpa": 9.38,
+          "enrollment_year": 2023
+        },
+        {
+          "student_id": 97,
+          "first_name": "Karande",
+          "last_name": "Student",
+          "email": "karande.student97@student.edu",
+          "department_id": 2,
+          "cgpa": 8.85,
+          "enrollment_year": 2023
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_005",
+      "domain": "University",
+      "difficulty": "medium",
+      "prompt": "Average CGPA per department",
+      "gold_sql": "SELECT d.department_name, ROUND(AVG(s.cgpa)::numeric, 2) AS avg_cgpa FROM students s JOIN departments d ON s.department_id = d.department_id GROUP BY d.department_name ORDER BY avg_cgpa DESC;",
+      "generated_sql": "SELECT d.department_name, ROUND(AVG(s.cgpa), 2) AS average_cgpa \nFROM students s \nJOIN departments d ON s.department_id = d.department_id \nGROUP BY d.department_id, d.department_name;",
+      "latency_ms": 2261.0,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 5,
+      "gold_row_count": 5,
+      "columns": [
+        "department_name",
+        "average_cgpa"
+      ],
+      "records": [
+        {
+          "department_name": "Mathematics",
+          "average_cgpa": 8.1
+        },
+        {
+          "department_name": "Data Science",
+          "average_cgpa": 8.38
+        },
+        {
+          "department_name": "Electrical Engineering",
+          "average_cgpa": 8.61
+        },
+        {
+          "department_name": "Computer Science",
+          "average_cgpa": 8.22
+        },
+        {
+          "department_name": "Business & Management",
+          "average_cgpa": 8.07
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_006",
+      "domain": "University",
+      "difficulty": "medium",
+      "prompt": "List all courses with their instructor names",
+      "gold_sql": "SELECT c.course_code, c.course_title, i.name AS instructor_name FROM courses c JOIN instructors i ON c.instructor_id = i.instructor_id;",
+      "generated_sql": "SELECT c.course_title, c.course_code, i.name AS instructor_name FROM courses c LEFT JOIN instructors i ON c.instructor_id = i.instructor_id;",
+      "latency_ms": 2447.6,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 15,
+      "gold_row_count": 15,
+      "columns": [
+        "course_title",
+        "course_code",
+        "instructor_name"
+      ],
+      "records": [
+        {
+          "course_title": "Database Management Systems",
+          "course_code": "CS101",
+          "instructor_name": "Dr. Alan Turing"
+        },
+        {
+          "course_title": "Machine Learning Foundations",
+          "course_code": "CS102",
+          "instructor_name": "Dr. Andrew Ng"
+        },
+        {
+          "course_title": "Algorithms & Data Structures",
+          "course_code": "CS201",
+          "instructor_name": "Dr. Grace Hopper"
+        },
+        {
+          "course_title": "Circuit Analysis",
+          "course_code": "EE101",
+          "instructor_name": "Dr. Nikola Tesla"
+        },
+        {
+          "course_title": "Linear Algebra & Calculus",
+          "course_code": "MATH101",
+          "instructor_name": "Dr. Katherine Johnson"
+        },
+        {
+          "course_title": "Operating Systems & Concurrency",
+          "course_code": "CS301",
+          "instructor_name": "Dr. Alan Turing"
+        },
+        {
+          "course_title": "Distributed Cloud Architecture",
+          "course_code": "CS302",
+          "instructor_name": "Dr. Grace Hopper"
+        },
+        {
+          "course_title": "Applied Natural Language Processing",
+          "course_code": "DS201",
+          "instructor_name": "Dr. Andrew Ng"
+        },
+        {
+          "course_title": "Big Data Analytics & Spark",
+          "course_code": "DS202",
+          "instructor_name": "Dr. Andrew Ng"
+        },
+        {
+          "course_title": "Digital Signal Processing",
+          "course_code": "EE201",
+          "instructor_name": "Dr. Nikola Tesla"
+        },
+        {
+          "course_title": "Embedded IoT Systems",
+          "course_code": "EE202",
+          "instructor_name": "Dr. Nikola Tesla"
+        },
+        {
+          "course_title": "Probability & Applied Statistics",
+          "course_code": "MATH201",
+          "instructor_name": "Dr. Katherine Johnson"
+        },
+        {
+          "course_title": "Discrete Optimization & Graphs",
+          "course_code": "MATH202",
+          "instructor_name": "Dr. Katherine Johnson"
+        },
+        {
+          "course_title": "Principles of Modern Management",
+          "course_code": "MGMT101",
+          "instructor_name": "Dr. Grace Hopper"
+        },
+        {
+          "course_title": "Financial Econometrics",
+          "course_code": "MGMT201",
+          "instructor_name": "Dr. Katherine Johnson"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_007",
+      "domain": "University",
+      "difficulty": "medium",
+      "prompt": "Total number of students per department",
+      "gold_sql": "SELECT d.department_name, COUNT(s.student_id) AS student_count FROM departments d LEFT JOIN students s ON d.department_id = s.department_id GROUP BY d.department_name ORDER BY student_count DESC;",
+      "generated_sql": "SELECT d.department_name, COUNT(s.student_id) AS total_students \nFROM departments d \nLEFT JOIN students s ON d.department_id = s.department_id \nGROUP BY d.department_id, d.department_name;",
+      "latency_ms": 2767.1,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 5,
+      "gold_row_count": 5,
+      "columns": [
+        "department_name",
+        "total_students"
+      ],
+      "records": [
+        {
+          "department_name": "Electrical Engineering",
+          "total_students": 20
+        },
+        {
+          "department_name": "Business & Management",
+          "total_students": 19
+        },
+        {
+          "department_name": "Mathematics",
+          "total_students": 19
+        },
+        {
+          "department_name": "Data Science",
+          "total_students": 21
+        },
+        {
+          "department_name": "Computer Science",
+          "total_students": 21
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_008",
+      "domain": "University",
+      "difficulty": "medium",
+      "prompt": "Show students with CGPA between 8 and 9.5",
+      "gold_sql": "SELECT first_name, last_name, cgpa FROM students WHERE cgpa BETWEEN 8.0 AND 9.5 ORDER BY cgpa DESC;",
+      "generated_sql": "SELECT student_id, first_name, last_name, cgpa FROM students WHERE cgpa BETWEEN 8.0 AND 9.5 ORDER BY cgpa DESC;",
+      "latency_ms": 2354.6,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 50,
+      "gold_row_count": 50,
+      "columns": [
+        "student_id",
+        "first_name",
+        "last_name",
+        "cgpa"
+      ],
+      "records": [
+        {
+          "student_id": 4,
+          "first_name": "Priya",
+          "last_name": "Nair",
+          "cgpa": 9.5
+        },
+        {
+          "student_id": 33,
+          "first_name": "Julia",
+          "last_name": "Balistreri",
+          "cgpa": 9.42
+        },
+        {
+          "student_id": 86,
+          "first_name": "Marek",
+          "last_name": "Student",
+          "cgpa": 9.4
+        },
+        {
+          "student_id": 10,
+          "first_name": "Diya",
+          "last_name": "Gupta",
+          "cgpa": 9.4
+        },
+        {
+          "student_id": 88,
+          "first_name": "Hawthorne",
+          "last_name": "Student",
+          "cgpa": 9.4
+        },
+        {
+          "student_id": 53,
+          "first_name": "Charles",
+          "last_name": "Norris",
+          "cgpa": 9.39
+        },
+        {
+          "student_id": 94,
+          "first_name": "Inoue",
+          "last_name": "Student",
+          "cgpa": 9.38
+        },
+        {
+          "student_id": 78,
+          "first_name": "Moszkowski",
+          "last_name": "Student",
+          "cgpa": 9.37
+        },
+        {
+          "student_id": 69,
+          "first_name": "Lisa",
+          "last_name": "Cheng",
+          "cgpa": 9.34
+        },
+        {
+          "student_id": 37,
+          "first_name": "Ferne",
+          "last_name": "Weimann",
+          "cgpa": 9.32
+        },
+        {
+          "student_id": 79,
+          "first_name": "Prieto",
+          "last_name": "Student",
+          "cgpa": 9.28
+        },
+        {
+          "student_id": 48,
+          "first_name": "Jandy",
+          "last_name": "Nelson",
+          "cgpa": 9.28
+        },
+        {
+          "student_id": 32,
+          "first_name": "Rupert",
+          "last_name": "Marks",
+          "cgpa": 9.24
+        },
+        {
+          "student_id": 1,
+          "first_name": "Aarav",
+          "last_name": "Sharma",
+          "cgpa": 9.2
+        },
+        {
+          "student_id": 90,
+          "first_name": "Eguchi",
+          "last_name": "Student",
+          "cgpa": 9.19
+        },
+        {
+          "student_id": 50,
+          "first_name": "Derek",
+          "last_name": "Lee",
+          "cgpa": 9.16
+        },
+        {
+          "student_id": 65,
+          "first_name": "Eric",
+          "last_name": "Pang",
+          "cgpa": 9.11
+        },
+        {
+          "student_id": 36,
+          "first_name": "Isac",
+          "last_name": "Fadel",
+          "cgpa": 9.05
+        },
+        {
+          "student_id": 91,
+          "first_name": "Moei",
+          "last_name": "Student",
+          "cgpa": 9.03
+        },
+        {
+          "student_id": 22,
+          "first_name": "Orrin",
+          "last_name": "Kemmer",
+          "cgpa": 9.0
+        },
+        {
+          "student_id": 96,
+          "first_name": "Tomason",
+          "last_name": "Student",
+          "cgpa": 8.99
+        },
+        {
+          "student_id": 63,
+          "first_name": "Stacy",
+          "last_name": "Prater",
+          "cgpa": 8.99
+        },
+        {
+          "student_id": 72,
+          "first_name": "William",
+          "last_name": "Simms",
+          "cgpa": 8.98
+        },
+        {
+          "student_id": 12,
+          "first_name": "Hobart",
+          "last_name": "Balistreri",
+          "cgpa": 8.95
+        },
+        {
+          "student_id": 29,
+          "first_name": "David",
+          "last_name": "Gorczany",
+          "cgpa": 8.91
+        },
+        {
+          "student_id": 8,
+          "first_name": "Kavya",
+          "last_name": "Iyer",
+          "cgpa": 8.9
+        },
+        {
+          "student_id": 97,
+          "first_name": "Karande",
+          "last_name": "Student",
+          "cgpa": 8.85
+        },
+        {
+          "student_id": 42,
+          "first_name": "Tracy",
+          "last_name": "Kim",
+          "cgpa": 8.82
+        },
+        {
+          "student_id": 2,
+          "first_name": "Ananya",
+          "last_name": "Roy",
+          "cgpa": 8.8
+        },
+        {
+          "student_id": 23,
+          "first_name": "Deon",
+          "last_name": "Weimann",
+          "cgpa": 8.8
+        },
+        {
+          "student_id": 71,
+          "first_name": "Eric",
+          "last_name": "Brown",
+          "cgpa": 8.75
+        },
+        {
+          "student_id": 70,
+          "first_name": "Sarah",
+          "last_name": "Smith",
+          "cgpa": 8.74
+        },
+        {
+          "student_id": 14,
+          "first_name": "Jarvis",
+          "last_name": "Carroll",
+          "cgpa": 8.73
+        },
+        {
+          "student_id": 92,
+          "first_name": "Alfaro",
+          "last_name": "Student",
+          "cgpa": 8.68
+        },
+        {
+          "student_id": 11,
+          "first_name": "Timmothy",
+          "last_name": "Ward",
+          "cgpa": 8.61
+        },
+        {
+          "student_id": 39,
+          "first_name": "Fanny",
+          "last_name": "Haley",
+          "cgpa": 8.6
+        },
+        {
+          "student_id": 43,
+          "first_name": "Shiela",
+          "last_name": "Jones",
+          "cgpa": 8.51
+        },
+        {
+          "student_id": 80,
+          "first_name": "Marcol",
+          "last_name": "Student",
+          "cgpa": 8.51
+        },
+        {
+          "student_id": 18,
+          "first_name": "Delaney",
+          "last_name": "Ankunding",
+          "cgpa": 8.49
+        },
+        {
+          "student_id": 28,
+          "first_name": "Rhea",
+          "last_name": "Bergnaum",
+          "cgpa": 8.49
+        },
+        {
+          "student_id": 66,
+          "first_name": "Paul",
+          "last_name": "Brody",
+          "cgpa": 8.47
+        },
+        {
+          "student_id": 21,
+          "first_name": "Gregg",
+          "last_name": "Schuppe",
+          "cgpa": 8.44
+        },
+        {
+          "student_id": 34,
+          "first_name": "Christy",
+          "last_name": "Huels",
+          "cgpa": 8.41
+        },
+        {
+          "student_id": 82,
+          "first_name": "Sowerby",
+          "last_name": "Student",
+          "cgpa": 8.28
+        },
+        {
+          "student_id": 58,
+          "first_name": "Arthur",
+          "last_name": "Pang",
+          "cgpa": 8.28
+        },
+        {
+          "student_id": 44,
+          "first_name": "Dinesh",
+          "last_name": "Kumar",
+          "cgpa": 8.26
+        },
+        {
+          "student_id": 68,
+          "first_name": "Jun",
+          "last_name": "Han",
+          "cgpa": 8.25
+        },
+        {
+          "student_id": 77,
+          "first_name": "Miliko",
+          "last_name": "Student",
+          "cgpa": 8.18
+        },
+        {
+          "student_id": 62,
+          "first_name": "David",
+          "last_name": "Shieber",
+          "cgpa": 8.18
+        },
+        {
+          "student_id": 5,
+          "first_name": "Vikram",
+          "last_name": "Singh",
+          "cgpa": 8.1
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_009",
+      "domain": "University",
+      "difficulty": "hard",
+      "prompt": "Show top 3 students by CGPA with their department name",
+      "gold_sql": "SELECT s.first_name, s.last_name, s.cgpa, d.department_name FROM students s JOIN departments d ON s.department_id = d.department_id ORDER BY s.cgpa DESC LIMIT 3;",
+      "generated_sql": "SELECT s.first_name, s.last_name, s.cgpa, d.department_name \nFROM students s \nJOIN departments d ON s.department_id = d.department_id \nORDER BY s.cgpa DESC \nLIMIT 3;",
+      "latency_ms": 2163.2,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 3,
+      "gold_row_count": 3,
+      "columns": [
+        "first_name",
+        "last_name",
+        "cgpa",
+        "department_name"
+      ],
+      "records": [
+        {
+          "first_name": "Michael",
+          "last_name": "Woods",
+          "cgpa": 9.79,
+          "department_name": "Computer Science"
+        },
+        {
+          "first_name": "Wunderli",
+          "last_name": "Student",
+          "cgpa": 9.78,
+          "department_name": "Electrical Engineering"
+        },
+        {
+          "first_name": "Rumat",
+          "last_name": "Student",
+          "cgpa": 9.71,
+          "department_name": "Computer Science"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "UNI_010",
+      "domain": "University",
+      "difficulty": "hard",
+      "prompt": "Total enrollments per course sorted by most popular",
+      "gold_sql": "SELECT c.course_title, COUNT(e.enrollment_id) AS total_enrollments FROM courses c LEFT JOIN enrollments e ON c.course_id = e.course_id GROUP BY c.course_title ORDER BY total_enrollments DESC;",
+      "generated_sql": "SELECT c.course_code, c.course_title, COUNT(e.enrollment_id) AS total_enrollments \nFROM courses c \nLEFT JOIN enrollments e ON c.course_id = e.course_id \nGROUP BY c.course_id, c.course_code, c.course_title \nORDER BY total_enrollments DESC;",
+      "latency_ms": 2953.2,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 15,
+      "gold_row_count": 15,
+      "columns": [
+        "course_code",
+        "course_title",
+        "total_enrollments"
+      ],
+      "records": [
+        {
+          "course_code": "EE101",
+          "course_title": "Circuit Analysis",
+          "total_enrollments": 17
+        },
+        {
+          "course_code": "MATH202",
+          "course_title": "Discrete Optimization & Graphs",
+          "total_enrollments": 16
+        },
+        {
+          "course_code": "EE201",
+          "course_title": "Digital Signal Processing",
+          "total_enrollments": 15
+        },
+        {
+          "course_code": "DS202",
+          "course_title": "Big Data Analytics & Spark",
+          "total_enrollments": 15
+        },
+        {
+          "course_code": "CS302",
+          "course_title": "Distributed Cloud Architecture",
+          "total_enrollments": 14
+        },
+        {
+          "course_code": "MATH101",
+          "course_title": "Linear Algebra & Calculus",
+          "total_enrollments": 13
+        },
+        {
+          "course_code": "EE202",
+          "course_title": "Embedded IoT Systems",
+          "total_enrollments": 12
+        },
+        {
+          "course_code": "DS201",
+          "course_title": "Applied Natural Language Processing",
+          "total_enrollments": 11
+        },
+        {
+          "course_code": "CS301",
+          "course_title": "Operating Systems & Concurrency",
+          "total_enrollments": 11
+        },
+        {
+          "course_code": "CS102",
+          "course_title": "Machine Learning Foundations",
+          "total_enrollments": 11
+        },
+        {
+          "course_code": "MATH201",
+          "course_title": "Probability & Applied Statistics",
+          "total_enrollments": 11
+        },
+        {
+          "course_code": "CS101",
+          "course_title": "Database Management Systems",
+          "total_enrollments": 11
+        },
+        {
+          "course_code": "MGMT101",
+          "course_title": "Principles of Modern Management",
+          "total_enrollments": 9
+        },
+        {
+          "course_code": "MGMT201",
+          "course_title": "Financial Econometrics",
+          "total_enrollments": 9
+        },
+        {
+          "course_code": "CS201",
+          "course_title": "Algorithms & Data Structures",
+          "total_enrollments": 9
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_001",
+      "domain": "E-Commerce",
+      "difficulty": "easy",
+      "prompt": "List all products",
+      "gold_sql": "SELECT product_id, product_name, category, unit_price, stock_quantity FROM products;",
+      "generated_sql": "SELECT product_id, product_name, category, unit_price, stock_quantity FROM products;",
+      "latency_ms": 2048.1,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": true,
+      "generated_row_count": 15,
+      "gold_row_count": 15,
+      "columns": [
+        "product_id",
+        "product_name",
+        "category",
+        "unit_price",
+        "stock_quantity"
+      ],
+      "records": [
+        {
+          "product_id": 1,
+          "product_name": "UltraBook Pro 15",
+          "category": "Laptops",
+          "unit_price": 1299.99,
+          "stock_quantity": 45
+        },
+        {
+          "product_id": 2,
+          "product_name": "AI Developer Workstation",
+          "category": "Desktops",
+          "unit_price": 2499.0,
+          "stock_quantity": 20
+        },
+        {
+          "product_id": 3,
+          "product_name": "4K Curved Monitor 32\"",
+          "category": "Displays",
+          "unit_price": 499.5,
+          "stock_quantity": 80
+        },
+        {
+          "product_id": 4,
+          "product_name": "Ergonomic Mechanical Keyboard",
+          "category": "Accessories",
+          "unit_price": 129.0,
+          "stock_quantity": 150
+        },
+        {
+          "product_id": 5,
+          "product_name": "Wireless Precision Mouse",
+          "category": "Accessories",
+          "unit_price": 79.99,
+          "stock_quantity": 200
+        },
+        {
+          "product_id": 6,
+          "product_name": "Noise Cancelling Headphones",
+          "category": "Audio",
+          "unit_price": 349.99,
+          "stock_quantity": 120
+        },
+        {
+          "product_id": 7,
+          "product_name": "Smart Standing Desk 60\"",
+          "category": "Furniture",
+          "unit_price": 599.0,
+          "stock_quantity": 35
+        },
+        {
+          "product_id": 8,
+          "product_name": "4K Webcam Pro",
+          "category": "Accessories",
+          "unit_price": 199.99,
+          "stock_quantity": 85
+        },
+        {
+          "product_id": 9,
+          "product_name": "Thunderbolt 4 Docking Station",
+          "category": "Accessories",
+          "unit_price": 279.5,
+          "stock_quantity": 60
+        },
+        {
+          "product_id": 10,
+          "product_name": "Curved Gaming Monitor 27\"",
+          "category": "Displays",
+          "unit_price": 389.0,
+          "stock_quantity": 50
+        },
+        {
+          "product_id": 11,
+          "product_name": "Ergonomic Mesh Chair",
+          "category": "Furniture",
+          "unit_price": 450.0,
+          "stock_quantity": 40
+        },
+        {
+          "product_id": 12,
+          "product_name": "Studio Condenser Microphone",
+          "category": "Audio",
+          "unit_price": 149.0,
+          "stock_quantity": 95
+        },
+        {
+          "product_id": 13,
+          "product_name": "Portable SSD 2TB",
+          "category": "Storage",
+          "unit_price": 189.99,
+          "stock_quantity": 150
+        },
+        {
+          "product_id": 14,
+          "product_name": "Server Rack 24U",
+          "category": "Infrastructure",
+          "unit_price": 899.0,
+          "stock_quantity": 15
+        },
+        {
+          "product_id": 15,
+          "product_name": "Smart LED Desk Lamp",
+          "category": "Accessories",
+          "unit_price": 69.99,
+          "stock_quantity": 210
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_002",
+      "domain": "E-Commerce",
+      "difficulty": "easy",
+      "prompt": "Show all orders",
+      "gold_sql": "SELECT order_id, customer_id, order_date, total_amount, status FROM orders;",
+      "generated_sql": "SELECT order_id, customer_id, order_date, total_amount, status FROM orders;",
+      "latency_ms": 2096.0,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": true,
+      "generated_row_count": 15,
+      "gold_row_count": 15,
+      "columns": [
+        "order_id",
+        "customer_id",
+        "order_date",
+        "total_amount",
+        "status"
+      ],
+      "records": [
+        {
+          "order_id": 1,
+          "customer_id": 1,
+          "order_date": "2024-01-15",
+          "total_amount": 5098.98,
+          "status": "Completed"
+        },
+        {
+          "order_id": 2,
+          "customer_id": 2,
+          "order_date": "2024-01-18",
+          "total_amount": 1299.99,
+          "status": "Completed"
+        },
+        {
+          "order_id": 3,
+          "customer_id": 3,
+          "order_date": "2024-02-01",
+          "total_amount": 999.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 4,
+          "customer_id": 4,
+          "order_date": "2024-02-10",
+          "total_amount": 2499.0,
+          "status": "Processing"
+        },
+        {
+          "order_id": 5,
+          "customer_id": 5,
+          "order_date": "2024-02-14",
+          "total_amount": 387.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 6,
+          "customer_id": 6,
+          "order_date": "2024-02-20",
+          "total_amount": 3249.5,
+          "status": "Completed"
+        },
+        {
+          "order_id": 7,
+          "customer_id": 7,
+          "order_date": "2024-02-24",
+          "total_amount": 1420.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 8,
+          "customer_id": 8,
+          "order_date": "2024-03-01",
+          "total_amount": 4890.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 9,
+          "customer_id": 9,
+          "order_date": "2024-03-05",
+          "total_amount": 899.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 10,
+          "customer_id": 10,
+          "order_date": "2024-03-12",
+          "total_amount": 2150.0,
+          "status": "Processing"
+        },
+        {
+          "order_id": 11,
+          "customer_id": 11,
+          "order_date": "2024-03-15",
+          "total_amount": 680.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 12,
+          "customer_id": 12,
+          "order_date": "2024-03-20",
+          "total_amount": 1890.5,
+          "status": "Completed"
+        },
+        {
+          "order_id": 13,
+          "customer_id": 13,
+          "order_date": "2024-03-22",
+          "total_amount": 4500.0,
+          "status": "Shipped"
+        },
+        {
+          "order_id": 14,
+          "customer_id": 14,
+          "order_date": "2024-03-28",
+          "total_amount": 1200.0,
+          "status": "Completed"
+        },
+        {
+          "order_id": 15,
+          "customer_id": 15,
+          "order_date": "2024-04-02",
+          "total_amount": 3100.0,
+          "status": "Completed"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_003",
+      "domain": "E-Commerce",
+      "difficulty": "easy",
+      "prompt": "List products with low stock under 50 units",
+      "gold_sql": "SELECT product_name, category, stock_quantity FROM products WHERE stock_quantity < 50 ORDER BY stock_quantity ASC;",
+      "generated_sql": "SELECT product_name, category, stock_quantity FROM products WHERE stock_quantity < 50 ORDER BY stock_quantity ASC;",
+      "latency_ms": 2405.7,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": true,
+      "generated_row_count": 5,
+      "gold_row_count": 5,
+      "columns": [
+        "product_name",
+        "category",
+        "stock_quantity"
+      ],
+      "records": [
+        {
+          "product_name": "Server Rack 24U",
+          "category": "Infrastructure",
+          "stock_quantity": 15
+        },
+        {
+          "product_name": "AI Developer Workstation",
+          "category": "Desktops",
+          "stock_quantity": 20
+        },
+        {
+          "product_name": "Smart Standing Desk 60\"",
+          "category": "Furniture",
+          "stock_quantity": 35
+        },
+        {
+          "product_name": "Ergonomic Mesh Chair",
+          "category": "Furniture",
+          "stock_quantity": 40
+        },
+        {
+          "product_name": "UltraBook Pro 15",
+          "category": "Laptops",
+          "stock_quantity": 45
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_004",
+      "domain": "E-Commerce",
+      "difficulty": "medium",
+      "prompt": "Top 5 products by total sales revenue",
+      "gold_sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue FROM products p JOIN order_items oi ON p.product_id = oi.product_id GROUP BY p.product_name ORDER BY total_revenue DESC LIMIT 5;",
+      "generated_sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM products p \nJOIN order_items oi ON p.product_id = oi.product_id \nGROUP BY p.product_id, p.product_name \nORDER BY total_revenue DESC \nLIMIT 5;",
+      "latency_ms": 2317.1,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 4,
+      "gold_row_count": 4,
+      "columns": [
+        "product_name",
+        "total_revenue"
+      ],
+      "records": [
+        {
+          "product_name": "AI Developer Workstation",
+          "total_revenue": 7497.0
+        },
+        {
+          "product_name": "UltraBook Pro 15",
+          "total_revenue": 1299.99
+        },
+        {
+          "product_name": "4K Curved Monitor 32\"",
+          "total_revenue": 999.0
+        },
+        {
+          "product_name": "Ergonomic Mechanical Keyboard",
+          "total_revenue": 487.98
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_005",
+      "domain": "E-Commerce",
+      "difficulty": "medium",
+      "prompt": "Show completed orders with customer names",
+      "gold_sql": "SELECT c.customer_name, o.order_id, o.order_date, o.total_amount FROM orders o JOIN customers c ON o.customer_id = c.customer_id WHERE o.status = 'Completed';",
+      "generated_sql": "SELECT o.order_id, c.customer_name, o.order_date, o.total_amount \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.status = 'Completed';",
+      "latency_ms": 6488.8,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 12,
+      "gold_row_count": 12,
+      "columns": [
+        "order_id",
+        "customer_name",
+        "order_date",
+        "total_amount"
+      ],
+      "records": [
+        {
+          "order_id": 1,
+          "customer_name": "TechCorp Inc",
+          "order_date": "2024-01-15",
+          "total_amount": 5098.98
+        },
+        {
+          "order_id": 2,
+          "customer_name": "Global Retail",
+          "order_date": "2024-01-18",
+          "total_amount": 1299.99
+        },
+        {
+          "order_id": 3,
+          "customer_name": "Innovate LLC",
+          "order_date": "2024-02-01",
+          "total_amount": 999.0
+        },
+        {
+          "order_id": 5,
+          "customer_name": "Nexus Traders",
+          "order_date": "2024-02-14",
+          "total_amount": 387.0
+        },
+        {
+          "order_id": 6,
+          "customer_name": "Quantum Dynamics",
+          "order_date": "2024-02-20",
+          "total_amount": 3249.5
+        },
+        {
+          "order_id": 7,
+          "customer_name": "CyberWave Solutions",
+          "order_date": "2024-02-24",
+          "total_amount": 1420.0
+        },
+        {
+          "order_id": 8,
+          "customer_name": "FinTech Pioneers",
+          "order_date": "2024-03-01",
+          "total_amount": 4890.0
+        },
+        {
+          "order_id": 9,
+          "customer_name": "Starlight Logistics",
+          "order_date": "2024-03-05",
+          "total_amount": 899.0
+        },
+        {
+          "order_id": 11,
+          "customer_name": "Vanguard Analytics",
+          "order_date": "2024-03-15",
+          "total_amount": 680.0
+        },
+        {
+          "order_id": 12,
+          "customer_name": "Nordic Cloud Oy",
+          "order_date": "2024-03-20",
+          "total_amount": 1890.5
+        },
+        {
+          "order_id": 14,
+          "customer_name": "Solaria Renewable Labs",
+          "order_date": "2024-03-28",
+          "total_amount": 1200.0
+        },
+        {
+          "order_id": 15,
+          "customer_name": "Kyoto Robotics Corp",
+          "order_date": "2024-04-02",
+          "total_amount": 3100.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_006",
+      "domain": "E-Commerce",
+      "difficulty": "medium",
+      "prompt": "Total revenue per product category",
+      "gold_sql": "SELECT p.category, SUM(oi.quantity * oi.price_per_unit) AS category_revenue FROM products p JOIN order_items oi ON p.product_id = oi.product_id GROUP BY p.category ORDER BY category_revenue DESC;",
+      "generated_sql": "SELECT p.category, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM products p \nJOIN order_items oi ON p.product_id = oi.product_id \nGROUP BY p.category \nORDER BY total_revenue DESC;",
+      "latency_ms": 9420.3,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 4,
+      "gold_row_count": 4,
+      "columns": [
+        "category",
+        "total_revenue"
+      ],
+      "records": [
+        {
+          "category": "Desktops",
+          "total_revenue": 7497.0
+        },
+        {
+          "category": "Laptops",
+          "total_revenue": 1299.99
+        },
+        {
+          "category": "Displays",
+          "total_revenue": 999.0
+        },
+        {
+          "category": "Accessories",
+          "total_revenue": 487.98
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_007",
+      "domain": "E-Commerce",
+      "difficulty": "medium",
+      "prompt": "List all customers from India",
+      "gold_sql": "SELECT customer_id, customer_name, city, country FROM customers WHERE country = 'India';",
+      "generated_sql": "SELECT customer_name, city, country \nFROM customers \nWHERE country = 'India';",
+      "latency_ms": 4607.6,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 1,
+      "gold_row_count": 1,
+      "columns": [
+        "customer_name",
+        "city",
+        "country"
+      ],
+      "records": [
+        {
+          "customer_name": "Nexus Traders",
+          "city": "Mumbai",
+          "country": "India"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_008",
+      "domain": "E-Commerce",
+      "difficulty": "hard",
+      "prompt": "Show customer name with their total number of orders and total amount spent",
+      "gold_sql": "SELECT c.customer_name, COUNT(o.order_id) AS total_orders, SUM(o.total_amount) AS total_spent FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.customer_name ORDER BY total_spent DESC;",
+      "generated_sql": "SELECT \n    c.customer_name, \n    COUNT(o.order_id) AS total_orders, \n    SUM(o.total_amount) AS total_spent \nFROM customers c \nLEFT JOIN orders o ON c.customer_id = o.customer_id \nGROUP BY c.customer_id, c.customer_name;",
+      "latency_ms": 15331.4,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 15,
+      "gold_row_count": 15,
+      "columns": [
+        "customer_name",
+        "total_orders",
+        "total_spent"
+      ],
+      "records": [
+        {
+          "customer_name": "Vanguard Analytics",
+          "total_orders": 1,
+          "total_spent": 680.0
+        },
+        {
+          "customer_name": "Starlight Logistics",
+          "total_orders": 1,
+          "total_spent": 899.0
+        },
+        {
+          "customer_name": "Kyoto Robotics Corp",
+          "total_orders": 1,
+          "total_spent": 3100.0
+        },
+        {
+          "customer_name": "Innovate LLC",
+          "total_orders": 1,
+          "total_spent": 999.0
+        },
+        {
+          "customer_name": "Nexus Traders",
+          "total_orders": 1,
+          "total_spent": 387.0
+        },
+        {
+          "customer_name": "Apex Solutions",
+          "total_orders": 1,
+          "total_spent": 2499.0
+        },
+        {
+          "customer_name": "BluePeak Systems",
+          "total_orders": 1,
+          "total_spent": 2150.0
+        },
+        {
+          "customer_name": "Quantum Dynamics",
+          "total_orders": 1,
+          "total_spent": 3249.5
+        },
+        {
+          "customer_name": "Solaria Renewable Labs",
+          "total_orders": 1,
+          "total_spent": 1200.0
+        },
+        {
+          "customer_name": "Atlas Aerospace",
+          "total_orders": 1,
+          "total_spent": 4500.0
+        },
+        {
+          "customer_name": "Global Retail",
+          "total_orders": 1,
+          "total_spent": 1299.99
+        },
+        {
+          "customer_name": "CyberWave Solutions",
+          "total_orders": 1,
+          "total_spent": 1420.0
+        },
+        {
+          "customer_name": "Nordic Cloud Oy",
+          "total_orders": 1,
+          "total_spent": 1890.5
+        },
+        {
+          "customer_name": "TechCorp Inc",
+          "total_orders": 1,
+          "total_spent": 5098.98
+        },
+        {
+          "customer_name": "FinTech Pioneers",
+          "total_orders": 1,
+          "total_spent": 4890.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "EC_009",
+      "domain": "E-Commerce",
+      "difficulty": "hard",
+      "prompt": "Average order value per customer country",
+      "gold_sql": "SELECT c.country, ROUND(AVG(o.total_amount)::numeric, 2) AS avg_order_value FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.country ORDER BY avg_order_value DESC;",
+      "generated_sql": "SELECT \n    c.customer_name, \n    COUNT(o.order_id) AS total_orders, \n    SUM(o.total_amount) AS total_spent \nFROM customers c \nLEFT JOIN orders o ON c.customer_id = o.customer_id \nGROUP BY c.customer_id, c.customer_name;",
+      "latency_ms": 31049.6,
+      "generation_success": false,
+      "blocked": false,
+      "exec_accuracy": false,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 0,
+      "gold_row_count": 12,
+      "columns": [
+        "country",
+        "avg_order_value"
+      ],
+      "records": [],
+      "error": "503: Google Gemini API error (503): Model gemini-flash-latest: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+    },
+    {
+      "id": "EC_010",
+      "domain": "E-Commerce",
+      "difficulty": "hard",
+      "prompt": "Show orders placed in February 2024 with customer details",
+      "gold_sql": "SELECT c.customer_name, o.order_id, o.order_date, o.total_amount, o.status FROM orders o JOIN customers c ON o.customer_id = c.customer_id WHERE o.order_date >= '2024-02-01' AND o.order_date < '2024-03-01';",
+      "generated_sql": "SELECT o.order_id, o.order_date, o.total_amount, c.customer_name, c.city, c.country \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.order_date BETWEEN '2024-02-01' AND '2024-02-29';",
+      "latency_ms": 3281.8,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": false,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 5,
+      "gold_row_count": 5,
+      "columns": [
+        "order_id",
+        "order_date",
+        "total_amount",
+        "customer_name",
+        "city",
+        "country"
+      ],
+      "records": [
+        {
+          "order_id": 3,
+          "order_date": "2024-02-01",
+          "total_amount": 999.0,
+          "customer_name": "Innovate LLC",
+          "city": "Berlin",
+          "country": "Germany"
+        },
+        {
+          "order_id": 4,
+          "order_date": "2024-02-10",
+          "total_amount": 2499.0,
+          "customer_name": "Apex Solutions",
+          "city": "Tokyo",
+          "country": "Japan"
+        },
+        {
+          "order_id": 5,
+          "order_date": "2024-02-14",
+          "total_amount": 387.0,
+          "customer_name": "Nexus Traders",
+          "city": "Mumbai",
+          "country": "India"
+        },
+        {
+          "order_id": 6,
+          "order_date": "2024-02-20",
+          "total_amount": 3249.5,
+          "customer_name": "Quantum Dynamics",
+          "city": "Boston",
+          "country": "USA"
+        },
+        {
+          "order_id": 7,
+          "order_date": "2024-02-24",
+          "total_amount": 1420.0,
+          "customer_name": "CyberWave Solutions",
+          "city": "Toronto",
+          "country": "Canada"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_001",
+      "domain": "Corporate",
+      "difficulty": "easy",
+      "prompt": "List all employees",
+      "gold_sql": "SELECT emp_id, emp_name, job_title, dept_id, hire_date, salary FROM employees;",
+      "generated_sql": "SELECT emp_id, emp_name, job_title, dept_id, hire_date, salary FROM employees;",
+      "latency_ms": 14638.6,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": true,
+      "generated_row_count": 15,
+      "gold_row_count": 15,
+      "columns": [
+        "emp_id",
+        "emp_name",
+        "job_title",
+        "dept_id",
+        "hire_date",
+        "salary"
+      ],
+      "records": [
+        {
+          "emp_id": 1,
+          "emp_name": "Siddharth Rao",
+          "job_title": "Senior AI Engineer",
+          "dept_id": 1,
+          "hire_date": "2021-03-15",
+          "salary": 145000.0
+        },
+        {
+          "emp_id": 2,
+          "emp_name": "Neha Sharma",
+          "job_title": "Lead Data Scientist",
+          "dept_id": 1,
+          "hire_date": "2020-07-01",
+          "salary": 155000.0
+        },
+        {
+          "emp_id": 3,
+          "emp_name": "Michael Scott",
+          "job_title": "Regional Director",
+          "dept_id": 3,
+          "hire_date": "2018-05-20",
+          "salary": 120000.0
+        },
+        {
+          "emp_id": 4,
+          "emp_name": "Pam Beesly",
+          "job_title": "Office Administrator",
+          "dept_id": 4,
+          "hire_date": "2019-11-10",
+          "salary": 65000.0
+        },
+        {
+          "emp_id": 5,
+          "emp_name": "Jim Halpert",
+          "job_title": "Sales Account Manager",
+          "dept_id": 3,
+          "hire_date": "2020-01-15",
+          "salary": 95000.0
+        },
+        {
+          "emp_id": 6,
+          "emp_name": "Dwight Schrute",
+          "job_title": "Assistant to Regional Director",
+          "dept_id": 3,
+          "hire_date": "2019-04-01",
+          "salary": 98000.0
+        },
+        {
+          "emp_id": 7,
+          "emp_name": "Sarah Connor",
+          "job_title": "Principal Systems Architect",
+          "dept_id": 1,
+          "hire_date": "2019-06-15",
+          "salary": 165000.0
+        },
+        {
+          "emp_id": 8,
+          "emp_name": "David Chen",
+          "job_title": "Cloud Infrastructure Lead",
+          "dept_id": 1,
+          "hire_date": "2021-01-10",
+          "salary": 150000.0
+        },
+        {
+          "emp_id": 9,
+          "emp_name": "Elena Rostova",
+          "job_title": "Senior Product Designer",
+          "dept_id": 2,
+          "hire_date": "2022-04-01",
+          "salary": 125000.0
+        },
+        {
+          "emp_id": 10,
+          "emp_name": "Marcus Vance",
+          "job_title": "VP of Global Sales",
+          "dept_id": 3,
+          "hire_date": "2017-09-01",
+          "salary": 180000.0
+        },
+        {
+          "emp_id": 11,
+          "emp_name": "Lisa Wang",
+          "job_title": "Senior Financial Analyst",
+          "dept_id": 4,
+          "hire_date": "2020-08-15",
+          "salary": 110000.0
+        },
+        {
+          "emp_id": 12,
+          "emp_name": "James Holden",
+          "job_title": "Operations Manager",
+          "dept_id": 2,
+          "hire_date": "2021-11-20",
+          "salary": 115000.0
+        },
+        {
+          "emp_id": 13,
+          "emp_name": "Amara Okafor",
+          "job_title": "HR Business Partner",
+          "dept_id": 4,
+          "hire_date": "2022-02-14",
+          "salary": 85000.0
+        },
+        {
+          "emp_id": 14,
+          "emp_name": "Klaus Mueller",
+          "job_title": "Director of DevOps",
+          "dept_id": 1,
+          "hire_date": "2018-10-01",
+          "salary": 170000.0
+        },
+        {
+          "emp_id": 15,
+          "emp_name": "Rachel Green",
+          "job_title": "Brand Marketing Specialist",
+          "dept_id": 3,
+          "hire_date": "2021-05-18",
+          "salary": 88000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_002",
+      "domain": "Corporate",
+      "difficulty": "easy",
+      "prompt": "Show all corporate departments with their locations",
+      "gold_sql": "SELECT dept_id, dept_name, location FROM corp_departments;",
+      "generated_sql": "SELECT dept_name, location FROM corp_departments;",
+      "latency_ms": 3377.8,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 4,
+      "gold_row_count": 4,
+      "columns": [
+        "dept_name",
+        "location"
+      ],
+      "records": [
+        {
+          "dept_name": "Engineering",
+          "location": "Building A - Floor 4"
+        },
+        {
+          "dept_name": "Product Management",
+          "location": "Building A - Floor 3"
+        },
+        {
+          "dept_name": "Sales & Marketing",
+          "location": "Building B - Floor 2"
+        },
+        {
+          "dept_name": "Human Resources",
+          "location": "Building B - Floor 1"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_003",
+      "domain": "Corporate",
+      "difficulty": "medium",
+      "prompt": "Average salary per corporate department",
+      "gold_sql": "SELECT cd.dept_name, ROUND(AVG(e.salary)::numeric, 2) AS avg_salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id GROUP BY cd.dept_name ORDER BY avg_salary DESC;",
+      "generated_sql": "SELECT cd.dept_name, ROUND(AVG(e.salary), 2) AS avg_salary \nFROM corp_departments cd \nJOIN employees e ON cd.dept_id = e.dept_id \nGROUP BY cd.dept_id, cd.dept_name;",
+      "latency_ms": 9422.8,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 4,
+      "gold_row_count": 4,
+      "columns": [
+        "dept_name",
+        "avg_salary"
+      ],
+      "records": [
+        {
+          "dept_name": "Sales & Marketing",
+          "avg_salary": 116200.0
+        },
+        {
+          "dept_name": "Human Resources",
+          "avg_salary": 86666.67
+        },
+        {
+          "dept_name": "Product Management",
+          "avg_salary": 120000.0
+        },
+        {
+          "dept_name": "Engineering",
+          "avg_salary": 157000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_004",
+      "domain": "Corporate",
+      "difficulty": "medium",
+      "prompt": "Show employees with salary greater than 100000",
+      "gold_sql": "SELECT emp_name, job_title, salary FROM employees WHERE salary > 100000 ORDER BY salary DESC;",
+      "generated_sql": "SELECT emp_name, salary \nFROM employees \nWHERE salary > 100000;",
+      "latency_ms": 3171.3,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 10,
+      "gold_row_count": 10,
+      "columns": [
+        "emp_name",
+        "salary"
+      ],
+      "records": [
+        {
+          "emp_name": "Siddharth Rao",
+          "salary": 145000.0
+        },
+        {
+          "emp_name": "Neha Sharma",
+          "salary": 155000.0
+        },
+        {
+          "emp_name": "Michael Scott",
+          "salary": 120000.0
+        },
+        {
+          "emp_name": "Sarah Connor",
+          "salary": 165000.0
+        },
+        {
+          "emp_name": "David Chen",
+          "salary": 150000.0
+        },
+        {
+          "emp_name": "Elena Rostova",
+          "salary": 125000.0
+        },
+        {
+          "emp_name": "Marcus Vance",
+          "salary": 180000.0
+        },
+        {
+          "emp_name": "Lisa Wang",
+          "salary": 110000.0
+        },
+        {
+          "emp_name": "James Holden",
+          "salary": 115000.0
+        },
+        {
+          "emp_name": "Klaus Mueller",
+          "salary": 170000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_005",
+      "domain": "Corporate",
+      "difficulty": "medium",
+      "prompt": "List employees hired after 2020 with their department name",
+      "gold_sql": "SELECT e.emp_name, e.job_title, cd.dept_name, e.hire_date FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id WHERE e.hire_date > '2020-01-01' ORDER BY e.hire_date ASC;",
+      "generated_sql": "SELECT e.emp_name, e.hire_date, cd.dept_name \nFROM employees e \nJOIN corp_departments cd ON e.dept_id = cd.dept_id \nWHERE e.hire_date > '2020-12-31';",
+      "latency_ms": 8601.5,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": false,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 6,
+      "gold_row_count": 9,
+      "columns": [
+        "emp_name",
+        "hire_date",
+        "dept_name"
+      ],
+      "records": [
+        {
+          "emp_name": "David Chen",
+          "hire_date": "2021-01-10",
+          "dept_name": "Engineering"
+        },
+        {
+          "emp_name": "Siddharth Rao",
+          "hire_date": "2021-03-15",
+          "dept_name": "Engineering"
+        },
+        {
+          "emp_name": "James Holden",
+          "hire_date": "2021-11-20",
+          "dept_name": "Product Management"
+        },
+        {
+          "emp_name": "Elena Rostova",
+          "hire_date": "2022-04-01",
+          "dept_name": "Product Management"
+        },
+        {
+          "emp_name": "Rachel Green",
+          "hire_date": "2021-05-18",
+          "dept_name": "Sales & Marketing"
+        },
+        {
+          "emp_name": "Amara Okafor",
+          "hire_date": "2022-02-14",
+          "dept_name": "Human Resources"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_006",
+      "domain": "Corporate",
+      "difficulty": "medium",
+      "prompt": "Total headcount per corporate department",
+      "gold_sql": "SELECT cd.dept_name, COUNT(e.emp_id) AS headcount FROM corp_departments cd LEFT JOIN employees e ON cd.dept_id = e.dept_id GROUP BY cd.dept_name ORDER BY headcount DESC;",
+      "generated_sql": "SELECT cd.dept_name, COUNT(e.emp_id) AS headcount\nFROM corp_departments cd\nLEFT JOIN employees e ON cd.dept_id = e.dept_id\nGROUP BY cd.dept_id, cd.dept_name;",
+      "latency_ms": 8906.9,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 4,
+      "gold_row_count": 4,
+      "columns": [
+        "dept_name",
+        "headcount"
+      ],
+      "records": [
+        {
+          "dept_name": "Sales & Marketing",
+          "headcount": 5
+        },
+        {
+          "dept_name": "Human Resources",
+          "headcount": 3
+        },
+        {
+          "dept_name": "Product Management",
+          "headcount": 2
+        },
+        {
+          "dept_name": "Engineering",
+          "headcount": 5
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_007",
+      "domain": "Corporate",
+      "difficulty": "hard",
+      "prompt": "Show the highest paid employee in each department",
+      "gold_sql": "SELECT cd.dept_name, e.emp_name, e.salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id WHERE e.salary = (SELECT MAX(e2.salary) FROM employees e2 WHERE e2.dept_id = e.dept_id);",
+      "generated_sql": "SELECT e.emp_name, cd.dept_name, e.salary \nFROM employees e \nJOIN corp_departments cd ON e.dept_id = cd.dept_id \nWHERE (e.dept_id, e.salary) IN (\n    SELECT dept_id, MAX(salary) \n    FROM employees \n    GROUP BY dept_id\n);",
+      "latency_ms": 3509.7,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": true,
+      "exact_match": false,
+      "generated_row_count": 4,
+      "gold_row_count": 4,
+      "columns": [
+        "emp_name",
+        "dept_name",
+        "salary"
+      ],
+      "records": [
+        {
+          "emp_name": "Elena Rostova",
+          "dept_name": "Product Management",
+          "salary": 125000.0
+        },
+        {
+          "emp_name": "Marcus Vance",
+          "dept_name": "Sales & Marketing",
+          "salary": 180000.0
+        },
+        {
+          "emp_name": "Lisa Wang",
+          "dept_name": "Human Resources",
+          "salary": 110000.0
+        },
+        {
+          "emp_name": "Klaus Mueller",
+          "dept_name": "Engineering",
+          "salary": 170000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CORP_008",
+      "domain": "Corporate",
+      "difficulty": "hard",
+      "prompt": "Total salary expenditure per department",
+      "gold_sql": "SELECT cd.dept_name, SUM(e.salary) AS total_salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id GROUP BY cd.dept_name ORDER BY total_salary DESC;",
+      "generated_sql": "SELECT d.department_name, SUM(i.salary) AS total_salary_expenditure\nFROM instructors i\nJOIN departments d ON i.department_id = d.department_id\nGROUP BY d.department_id, d.department_name;",
+      "latency_ms": 3554.6,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": false,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 5,
+      "gold_row_count": 4,
+      "columns": [
+        "department_name",
+        "total_salary_expenditure"
+      ],
+      "records": [
+        {
+          "department_name": "Electrical Engineering",
+          "total_salary_expenditure": 250000.0
+        },
+        {
+          "department_name": "Business & Management",
+          "total_salary_expenditure": 120000.0
+        },
+        {
+          "department_name": "Mathematics",
+          "total_salary_expenditure": 260000.0
+        },
+        {
+          "department_name": "Data Science",
+          "total_salary_expenditure": 300000.0
+        },
+        {
+          "department_name": "Computer Science",
+          "total_salary_expenditure": 400000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CROSS_001",
+      "domain": "Cross-Domain",
+      "difficulty": "hard",
+      "prompt": "Show instructor names and their department budget",
+      "gold_sql": "SELECT i.name AS instructor_name, d.department_name, d.budget FROM instructors i JOIN departments d ON i.department_id = d.department_id ORDER BY d.budget DESC;",
+      "generated_sql": "SELECT i.name, d.budget \nFROM instructors i \nJOIN departments d ON i.department_id = d.department_id;",
+      "latency_ms": 3378.4,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": true,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 10,
+      "gold_row_count": 10,
+      "columns": [
+        "name",
+        "budget"
+      ],
+      "records": [
+        {
+          "name": "Dr. Alan Turing",
+          "budget": 1200000.0
+        },
+        {
+          "name": "Dr. Grace Hopper",
+          "budget": 1200000.0
+        },
+        {
+          "name": "Dr. Andrew Ng",
+          "budget": 950000.0
+        },
+        {
+          "name": "Dr. Nikola Tesla",
+          "budget": 1100000.0
+        },
+        {
+          "name": "Dr. Katherine Johnson",
+          "budget": 600000.0
+        },
+        {
+          "name": "Dr. Claude Shannon",
+          "budget": 1100000.0
+        },
+        {
+          "name": "Dr. Geoffrey Hinton",
+          "budget": 950000.0
+        },
+        {
+          "name": "Dr. Donald Knuth",
+          "budget": 1200000.0
+        },
+        {
+          "name": "Dr. John von Neumann",
+          "budget": 600000.0
+        },
+        {
+          "name": "Dr. Peter Drucker",
+          "budget": 850000.0
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "CROSS_002",
+      "domain": "Cross-Domain",
+      "difficulty": "hard",
+      "prompt": "Show students who got grade A or A+ in any course",
+      "gold_sql": "SELECT DISTINCT s.student_id, s.first_name, s.last_name FROM students s JOIN enrollments e ON s.student_id = e.student_id WHERE e.grade IN ('A', 'A+');",
+      "generated_sql": "SELECT DISTINCT s.first_name, s.last_name, e.grade \nFROM students s \nJOIN enrollments e ON s.student_id = e.student_id \nWHERE e.grade IN ('A', 'A+');",
+      "latency_ms": 7475.1,
+      "generation_success": true,
+      "blocked": false,
+      "exec_accuracy": false,
+      "column_match": false,
+      "exact_match": false,
+      "generated_row_count": 55,
+      "gold_row_count": 49,
+      "columns": [
+        "first_name",
+        "last_name",
+        "grade"
+      ],
+      "records": [
+        {
+          "first_name": "Louvenia",
+          "last_name": "Hansen",
+          "grade": "A"
+        },
+        {
+          "first_name": "Greve",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Sarah",
+          "last_name": "Schmidt",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Quimby",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Sarah",
+          "last_name": "Smith",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Jandy",
+          "last_name": "Nelson",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Emma",
+          "last_name": "Rohan",
+          "grade": "A"
+        },
+        {
+          "first_name": "Jett",
+          "last_name": "Jaskolski",
+          "grade": "A"
+        },
+        {
+          "first_name": "Eric",
+          "last_name": "Epp",
+          "grade": "A"
+        },
+        {
+          "first_name": "Ananya",
+          "last_name": "Roy",
+          "grade": "A"
+        },
+        {
+          "first_name": "Antonietta",
+          "last_name": "Fahey",
+          "grade": "A"
+        },
+        {
+          "first_name": "Miliko",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Shiela",
+          "last_name": "Jones",
+          "grade": "A"
+        },
+        {
+          "first_name": "Stanford",
+          "last_name": "Rogahn",
+          "grade": "A"
+        },
+        {
+          "first_name": "Marcol",
+          "last_name": "Student",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Hawthorne",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Misael",
+          "last_name": "Will",
+          "grade": "A"
+        },
+        {
+          "first_name": "Milton",
+          "last_name": "Christiansen",
+          "grade": "A"
+        },
+        {
+          "first_name": "Eugene",
+          "last_name": "Tremblay",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Susan",
+          "last_name": "Lee",
+          "grade": "A"
+        },
+        {
+          "first_name": "Frida",
+          "last_name": "Huel",
+          "grade": "A"
+        },
+        {
+          "first_name": "Isac",
+          "last_name": "Fadel",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Michael",
+          "last_name": "Woods",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Sarah",
+          "last_name": "Smith",
+          "grade": "A"
+        },
+        {
+          "first_name": "Diya",
+          "last_name": "Gupta",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Sneha",
+          "last_name": "Patel",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Inoue",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Paul",
+          "last_name": "Gompers",
+          "grade": "A"
+        },
+        {
+          "first_name": "Jordy",
+          "last_name": "Rempel",
+          "grade": "A"
+        },
+        {
+          "first_name": "William",
+          "last_name": "Simms",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Reva",
+          "last_name": "Osinski",
+          "grade": "A"
+        },
+        {
+          "first_name": "Eguchi",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Lisa",
+          "last_name": "Apap",
+          "grade": "A"
+        },
+        {
+          "first_name": "Priya",
+          "last_name": "Nair",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Aarav",
+          "last_name": "Sharma",
+          "grade": "A"
+        },
+        {
+          "first_name": "Eric",
+          "last_name": "Rugh",
+          "grade": "A"
+        },
+        {
+          "first_name": "Ian",
+          "last_name": "Thornton",
+          "grade": "A"
+        },
+        {
+          "first_name": "Jarvis",
+          "last_name": "Carroll",
+          "grade": "A"
+        },
+        {
+          "first_name": "Lucile",
+          "last_name": "Gottlieb",
+          "grade": "A"
+        },
+        {
+          "first_name": "Mark",
+          "last_name": "Goldman",
+          "grade": "A"
+        },
+        {
+          "first_name": "Aarav",
+          "last_name": "Sharma",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Dinesh",
+          "last_name": "Kumar",
+          "grade": "A"
+        },
+        {
+          "first_name": "Julia",
+          "last_name": "Balistreri",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Julia",
+          "last_name": "Balistreri",
+          "grade": "A"
+        },
+        {
+          "first_name": "Prieto",
+          "last_name": "Student",
+          "grade": "A"
+        },
+        {
+          "first_name": "Prieto",
+          "last_name": "Student",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Hobart",
+          "last_name": "Balistreri",
+          "grade": "A"
+        },
+        {
+          "first_name": "Coppens",
+          "last_name": "Student",
+          "grade": "A+"
+        },
+        {
+          "first_name": "Kavya",
+          "last_name": "Iyer",
+          "grade": "A"
+        },
+        {
+          "first_name": "Isac",
+          "last_name": "Fadel",
+          "grade": "A"
+        }
+      ],
+      "error": null
+    }
+  ],
+  "runtime_seconds": 168.98,
+  "rag_mode": "on"
+}

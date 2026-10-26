@@ -1,0 +1,13 @@
+{
+  "departments": "Academic university departments with their building and budget",
+  "instructors": "University teaching staff (professors) with their department and salary",
+  "students": "Enrolled university students with CGPA, department and year of enrollment",
+  "courses": "Courses offered, with course code, title, credits, department and the instructor who teaches it",
+  "enrollments": "Which student took which course, with grade, grade point and semester (links students and courses)",
+  "customers": "Online store customers with their city and country",
+  "products": "Products for sale with category, unit price and stock quantity",
+  "orders": "Customer orders with order date, total amount and status",
+  "order_items": "Line items of each order: product, quantity and price per unit (links orders and products)",
+  "corp_departments": "Corporate company departments with their office location",
+  "employees": "Company employees with job title, department, hire date and salary"
+}

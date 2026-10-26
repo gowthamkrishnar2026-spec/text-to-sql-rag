@@ -15,10 +15,24 @@ class SQLExecutorService:
         Validates and executes a SQL query on PostgreSQL, returning structured
         results, timing metrics, and automatic chart visualization suggestions.
         """
-        # Step 1: Validate SQL for safety
-        validated_sql = sanitize_and_validate_sql(raw_sql)
-        
         start_time = time.perf_counter()
+
+        # Step 1: Validate SQL for safety
+        try:
+            validated_sql = sanitize_and_validate_sql(raw_sql)
+        except SQLValidationError as ve:
+            return {
+                "success": False,
+                "blocked": True,
+                "sql_query": raw_sql,
+                "columns": [],
+                "rows": [],
+                "row_count": 0,
+                "execution_time_ms": 0,
+                "visualization": None,
+                "error": f"Security Guardrail Violation: {str(ve)}",
+                "violation_type": "SQL_VALIDATION_ERROR"
+            }
         
         try:
             with engine.connect() as connection:
@@ -51,6 +65,7 @@ class SQLExecutorService:
 
                 return {
                     "success": True,
+                    "blocked": False,
                     "sql_query": validated_sql,
                     "columns": columns,
                     "rows": rows,
@@ -60,22 +75,12 @@ class SQLExecutorService:
                     "error": None
                 }
 
-        except SQLValidationError as ve:
-            return {
-                "success": False,
-                "sql_query": raw_sql,
-                "columns": [],
-                "rows": [],
-                "row_count": 0,
-                "execution_time_ms": 0,
-                "visualization": None,
-                "error": f"Validation Error: {str(ve)}"
-            }
         except Exception as e:
             elapsed_ms = round((time.perf_counter() - start_time) * 1000, 2)
             logger.error(f"Database execution error: {e}")
             return {
                 "success": False,
+                "blocked": False,
                 "sql_query": raw_sql,
                 "columns": [],
                 "rows": [],

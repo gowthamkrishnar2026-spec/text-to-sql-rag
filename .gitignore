@@ -1,24 +1,38 @@
-# Node & Next.js
-frontend/node_modules/
+# Secrets and local config
+.env
+.env.*
+!.env.example
+
+# Node / Next.js
+node_modules/
 frontend/.next/
 frontend/out/
+*.tsbuildinfo
+next-env.d.ts
 
-# Python & Virtual Environments
-backend/venv/
-backend/__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
 .pytest_cache/
 
-# OS & IDE
+# Generated at runtime
+backend/rag_store/
+backend/*.db
+*.db
+postgres_data/
+*.log
+
+# Large datasets (see datasets/README.md for download steps)
+datasets/spider/
+datasets/spider.zip
+datasets/huggingface_spider/*.parquet
+
+# Editor, OS and tooling files
 .DS_Store
-*.swp
-*.swo
 .vscode/
 .idea/
-
-# Environment variables & Local logs
-.env
-*.log
-postgres_data/
+*.swp
+frontend/CLAUDE.md
+frontend/AGENTS.md

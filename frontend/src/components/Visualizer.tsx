@@ -19,7 +19,7 @@ interface VisualizerProps {
   };
 }
 
-const COLORS = ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B', '#EC4899', '#06B6D4', '#6366F1'];
+const COLORS = ['#d97757', '#52a373', '#4f80e1', '#a066d9', '#e5a83b', '#38bdf8', '#f472b6'];
 
 export default function Visualizer({ columns, rows, visualizationConfig }: VisualizerProps) {
   const [chartType, setChartType] = useState<'bar' | 'line' | 'pie' | 'area'>(
@@ -38,61 +38,61 @@ export default function Visualizer({ columns, rows, visualizationConfig }: Visua
 
   if (yAxisKeys.length === 0) {
     return (
-      <div className="w-full glass-panel rounded-2xl p-6 text-center text-slate-400 border border-slate-800">
-        <p className="text-sm">No numeric column found to render visual charts.</p>
+      <div className="w-full claude-card p-6 text-center text-[#a1a19a]">
+        <p className="text-xs">No numeric column found to render visual charts.</p>
       </div>
     );
   }
 
   return (
-    <div className="w-full glass-panel rounded-2xl p-5 shadow-xl border border-slate-800 flex flex-col h-full">
+    <div className="w-full claude-card p-5 shadow-xl flex flex-col h-full">
       
       {/* Header with chart tabs */}
-      <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+      <div className="flex items-center justify-between mb-4 pb-3 border-b border-[#2b2b27]">
         <div className="flex items-center space-x-2">
-          <BarChart3 className="w-5 h-5 text-purple-400" />
-          <h3 className="font-semibold text-white text-base">Data Analytics & Chart</h3>
+          <BarChart3 className="w-4 h-4 text-[#d97757]" />
+          <h3 className="font-semibold text-[#f3f3ee] text-sm">Visual Analytics</h3>
         </div>
 
         {/* Chart type switchers */}
-        <div className="flex items-center space-x-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+        <div className="flex items-center space-x-1 bg-[#111110] p-1 rounded-lg border border-[#282824]">
           <button
             onClick={() => setChartType('bar')}
-            className={`p-1.5 rounded-lg text-xs flex items-center space-x-1 transition-all ${
-              chartType === 'bar' ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
+            className={`p-1.5 rounded-md text-xs flex items-center space-x-1 transition-all ${
+              chartType === 'bar' ? 'bg-[#d97757] text-white font-medium shadow-sm' : 'text-[#a1a19a] hover:text-[#f3f3ee]'
             }`}
           >
-            <BarChart3 className="w-4 h-4" />
+            <BarChart3 className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Bar</span>
           </button>
 
           <button
             onClick={() => setChartType('line')}
-            className={`p-1.5 rounded-lg text-xs flex items-center space-x-1 transition-all ${
-              chartType === 'line' ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
+            className={`p-1.5 rounded-md text-xs flex items-center space-x-1 transition-all ${
+              chartType === 'line' ? 'bg-[#d97757] text-white font-medium shadow-sm' : 'text-[#a1a19a] hover:text-[#f3f3ee]'
             }`}
           >
-            <LineIcon className="w-4 h-4" />
+            <LineIcon className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Line</span>
           </button>
 
           <button
             onClick={() => setChartType('pie')}
-            className={`p-1.5 rounded-lg text-xs flex items-center space-x-1 transition-all ${
-              chartType === 'pie' ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
+            className={`p-1.5 rounded-md text-xs flex items-center space-x-1 transition-all ${
+              chartType === 'pie' ? 'bg-[#d97757] text-white font-medium shadow-sm' : 'text-[#a1a19a] hover:text-[#f3f3ee]'
             }`}
           >
-            <PieIcon className="w-4 h-4" />
+            <PieIcon className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Pie</span>
           </button>
 
           <button
             onClick={() => setChartType('area')}
-            className={`p-1.5 rounded-lg text-xs flex items-center space-x-1 transition-all ${
-              chartType === 'area' ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
+            className={`p-1.5 rounded-md text-xs flex items-center space-x-1 transition-all ${
+              chartType === 'area' ? 'bg-[#d97757] text-white font-medium shadow-sm' : 'text-[#a1a19a] hover:text-[#f3f3ee]'
             }`}
           >
-            <AreaIcon className="w-4 h-4" />
+            <AreaIcon className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Area</span>
           </button>
         </div>
@@ -103,39 +103,39 @@ export default function Visualizer({ columns, rows, visualizationConfig }: Visua
         <ResponsiveContainer width="100%" height="100%">
           {chartType === 'bar' ? (
             <BarChart data={rows} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.4} />
-              <XAxis dataKey={xAxisKey} stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#282824" opacity={0.6} />
+              <XAxis dataKey={xAxisKey} stroke="#a1a19a" fontSize={11} />
+              <YAxis stroke="#a1a19a" fontSize={11} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '0.5rem', color: '#fff' }}
+                contentStyle={{ backgroundColor: '#111110', borderColor: '#33332f', borderRadius: '0.5rem', color: '#f3f3ee' }}
               />
-              <Legend wrapperStyle={{ paddingTop: '10px' }} />
+              <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px', color: '#a1a19a' }} />
               {yAxisKeys.map((yKey, idx) => (
-                <Bar key={yKey} dataKey={yKey} fill={COLORS[idx % COLORS.length]} radius={[6, 6, 0, 0]} />
+                <Bar key={yKey} dataKey={yKey} fill={COLORS[idx % COLORS.length]} radius={[4, 4, 0, 0]} />
               ))}
             </BarChart>
           ) : chartType === 'line' ? (
             <LineChart data={rows} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.4} />
-              <XAxis dataKey={xAxisKey} stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#282824" opacity={0.6} />
+              <XAxis dataKey={xAxisKey} stroke="#a1a19a" fontSize={11} />
+              <YAxis stroke="#a1a19a" fontSize={11} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '0.5rem', color: '#fff' }}
+                contentStyle={{ backgroundColor: '#111110', borderColor: '#33332f', borderRadius: '0.5rem', color: '#f3f3ee' }}
               />
-              <Legend wrapperStyle={{ paddingTop: '10px' }} />
+              <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px', color: '#a1a19a' }} />
               {yAxisKeys.map((yKey, idx) => (
-                <Line key={yKey} type="monotone" dataKey={yKey} stroke={COLORS[idx % COLORS.length]} strokeWidth={3} dot={{ r: 4 }} />
+                <Line key={yKey} type="monotone" dataKey={yKey} stroke={COLORS[idx % COLORS.length]} strokeWidth={2.5} dot={{ r: 4 }} />
               ))}
             </LineChart>
           ) : chartType === 'area' ? (
             <AreaChart data={rows} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#334155" opacity={0.4} />
-              <XAxis dataKey={xAxisKey} stroke="#94a3b8" fontSize={11} />
-              <YAxis stroke="#94a3b8" fontSize={11} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#282824" opacity={0.6} />
+              <XAxis dataKey={xAxisKey} stroke="#a1a19a" fontSize={11} />
+              <YAxis stroke="#a1a19a" fontSize={11} />
               <Tooltip
-                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '0.5rem', color: '#fff' }}
+                contentStyle={{ backgroundColor: '#111110', borderColor: '#33332f', borderRadius: '0.5rem', color: '#f3f3ee' }}
               />
-              <Legend wrapperStyle={{ paddingTop: '10px' }} />
+              <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '12px', color: '#a1a19a' }} />
               {yAxisKeys.map((yKey, idx) => (
                 <Area
                   key={yKey}
@@ -150,16 +150,16 @@ export default function Visualizer({ columns, rows, visualizationConfig }: Visua
           ) : (
             <PieChart>
               <Tooltip
-                contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '0.5rem', color: '#fff' }}
+                contentStyle={{ backgroundColor: '#111110', borderColor: '#33332f', borderRadius: '0.5rem', color: '#f3f3ee' }}
               />
-              <Legend />
+              <Legend wrapperStyle={{ fontSize: '12px', color: '#a1a19a' }} />
               <Pie
                 data={rows}
                 dataKey={yAxisKeys[0]}
                 nameKey={xAxisKey}
                 cx="50%"
                 cy="50%"
-                outerRadius={100}
+                outerRadius={95}
                 label
               >
                 {rows.map((_, index) => (
@@ -173,3 +173,4 @@ export default function Visualizer({ columns, rows, visualizationConfig }: Visua
     </div>
   );
 }
+

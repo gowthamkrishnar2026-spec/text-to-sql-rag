@@ -2,294 +2,197 @@ import os
 import re
 import logging
 import requests
-from typing import Dict, Any, Tuple
-from app.db.session import format_schema_for_prompt, inspect_db_schema
+from typing import Tuple, Dict, Any, Optional
+from app.db.session import format_schema_for_prompt, get_prompt_schema
 from app.core.config import settings
+from app.services.llm_client import call_gemini, LLMError, DEFAULT_MODELS
+from app.services.prompt_builder import build_sql_prompt
+from app.services.rag_service import RagContext, get_runtime
 
 logger = logging.getLogger(__name__)
 
-# SOTA Model Identifiers
-FRONTIER_SOTA_MODELS = [
-    "deepseek-ai/DeepSeek-Coder-33B-instruct",
-    "Qwen/Qwen2.5-Coder-32B-Instruct",
-    "defog/sqlcoder-34b-alpha"
-]
+FORBIDDEN_KEYWORDS = {
+    "DROP", "DELETE", "UPDATE", "ALTER", "TRUNCATE", "INSERT", 
+    "CREATE", "GRANT", "REVOKE", "EXEC", "EXECUTE", "PG_SLEEP", 
+    "COPY", "VACUUM", "REINDEX", "SHUTDOWN"
+}
+
+DESTRUCTIVE_PROMPT_PATTERN = re.compile(
+    r"\b(delete|drop|truncate|alter|remove|wipe|purge|clear\s+table|destroy|update|insert)\b",
+    re.IGNORECASE
+)
 
 class TextToSQLAIService:
+    """
+    Dedicated Text-to-SQL Service powered EXCLUSIVELY by Google Gemini API
+    with integrated AST safety classification and destructive query interception.
+    Prompt context (schema tables and few-shot examples) can be retrieved per question (RAG).
+    """
     def __init__(self):
-        self.model_name = settings.HF_MODEL_NAME or FRONTIER_SOTA_MODELS[0]
-        self.pipeline = None
-        self.hf_token = settings.HF_TOKEN
-        self.deepseek_key = settings.DEEPSEEK_API_KEY
-        self.openai_key = settings.OPENAI_API_KEY
-        
-        if settings.ENABLE_LOCAL_MODEL:
-            try:
-                from transformers import pipeline
-                logger.info(f"Loading SOTA Frontier Text-to-SQL Model: {self.model_name}")
-                self.pipeline = pipeline("text-generation", model=self.model_name, device_map="auto")
-            except Exception as e:
-                logger.warning(f"Local model load error: {e}. Utilizing SOTA Engine.")
+        self.model_name = getattr(settings, "GEMINI_MODEL", "gemini-3.6-flash")
 
-    def generate_sql(self, natural_language_prompt: str) -> Tuple[str, str]:
+    def _convert_to_safe_alternative(self, sql_or_prompt: str) -> Optional[str]:
         """
-        Generates production-grade SOTA SQL using DeepSeek-Coder-33B / Qwen2.5-Coder / SQLCoder-34B.
-        Returns tuple: (generated_sql, explanation)
+        Converts a destructive statement (e.g. DELETE FROM table WHERE condition)
+        into a safe non-destructive read-only inspection query (e.g. SELECT * FROM table WHERE condition).
         """
-        schema_prompt = format_schema_for_prompt()
+        # Match DELETE FROM table WHERE ...
+        delete_match = re.search(r"DELETE\s+FROM\s+([a-zA-Z_]+)(?:\s+WHERE\s+(.*?))?(?:;|$)", sql_or_prompt, re.IGNORECASE | re.DOTALL)
+        if delete_match:
+            table = delete_match.group(1).strip()
+            where_clause = delete_match.group(2)
+            if where_clause and where_clause.strip():
+                return f"SELECT * FROM {table} WHERE {where_clause.strip().rstrip(';')};"
+            return f"SELECT * FROM {table};"
+
+        # Match UPDATE table SET ... WHERE ...
+        update_match = re.search(r"UPDATE\s+([a-zA-Z_]+)\s+SET\s+.*?(?:\s+WHERE\s+(.*?))?(?:;|$)", sql_or_prompt, re.IGNORECASE | re.DOTALL)
+        if update_match:
+            table = update_match.group(1).strip()
+            where_clause = update_match.group(2)
+            if where_clause and where_clause.strip():
+                return f"SELECT * FROM {table} WHERE {where_clause.strip().rstrip(';')};"
+            return f"SELECT * FROM {table} LIMIT 25;"
+
+        # Match DROP TABLE table
+        drop_match = re.search(r"DROP\s+TABLE\s+(?:IF\s+EXISTS\s+)?([a-zA-Z_]+)", sql_or_prompt, re.IGNORECASE)
+        if drop_match:
+            table = drop_match.group(1).strip()
+            return f"SELECT * FROM {table} LIMIT 10;"
+
+        # Match TRUNCATE table
+        truncate_match = re.search(r"TRUNCATE\s+(?:TABLE\s+)?([a-zA-Z_]+)", sql_or_prompt, re.IGNORECASE)
+        if truncate_match:
+            table = truncate_match.group(1).strip()
+            return f"SELECT * FROM {table};"
+
+        # Check prompt for common entity names (students, products, orders, employees, etc.)
+        for table in ["students", "orders", "products", "customers", "employees", "courses", "departments", "instructors", "order_items", "enrollments", "corp_departments"]:
+            if table in sql_or_prompt.lower():
+                return f"SELECT * FROM {table} LIMIT 20;"
+
+        return "SELECT * FROM students LIMIT 10;"
+
+    def _prepare_rag(self, question: str, rag_options: Optional[Dict[str, Any]]) -> RagContext:
+        """Retrieval context for this question. Never raises: any problem means the old behaviour."""
+        opts = rag_options or {}
+        try:
+            return get_runtime().prepare(
+                question, get_prompt_schema(),
+                use_schema_rag=opts.get("use_schema_rag"),
+                use_example_rag=opts.get("use_example_rag"),
+                static_examples=opts.get("static_examples"),
+                holdout=bool(opts.get("rag_holdout")),
+            )
+        except Exception as exc:
+            logger.warning("RAG disabled for this request: %s", exc)
+            return RagContext(None, None, True, {"error": f"{type(exc).__name__}: {str(exc)[:160]}"})
+
+    def generate_sql(self, natural_language_prompt: str, rag_options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+        """
+        Generates production-grade SQL exclusively using Google Gemini API.
+        Returns a rich dictionary containing security status, SQL, explanation,
+        and safe alternatives for intercepted destructive operations.
+        """
         prompt_clean = natural_language_prompt.strip()
 
-        # 1. DeepSeek API Provider Integration (if API key provided)
-        if self.deepseek_key:
-            try:
-                headers = {
-                    "Authorization": f"Bearer {self.deepseek_key}",
-                    "Content-Type": "application/json"
-                }
-                messages = [
-                    {"role": "system", "content": f"You are a SOTA Text-to-SQL expert. Given the PostgreSQL schema below, generate ONLY a valid executable SQL SELECT query inside ```sql ... ```.\n\nSchema:\n{schema_prompt}"},
-                    {"role": "user", "content": prompt_clean}
-                ]
-                res = requests.post("https://api.deepseek.com/v1/chat/completions", headers=headers, json={"model": "deepseek-coder", "messages": messages, "temperature": 0.1}, timeout=8)
-                if res.status_code == 200:
-                    content = res.json()["choices"][0]["message"]["content"]
-                    sql_match = re.search(r"```sql\s*(SELECT.*?);?\s*```", content, re.IGNORECASE | re.DOTALL)
-                    if sql_match:
-                        sql_query = sql_match.group(1).strip() + ";"
-                        explanation = self.generate_explanation(sql_query, prompt_clean)
-                        return sql_query, explanation
-            except Exception as e:
-                logger.warning(f"DeepSeek API Exception: {e}")
+        # Read API key from settings (loaded from .env via python-dotenv)
+        gemini_key = settings.GEMINI_API_KEY or os.getenv("GEMINI_API_KEY", "")
 
-        # 2. Hugging Face Inference API
-        if self.hf_token:
-            try:
-                url = f"https://api-inference.huggingface.co/models/{self.model_name}"
-                headers = {"Authorization": f"Bearer {self.hf_token}"}
-                payload = {
-                    "inputs": f"### PostgreSQL Schema:\n{schema_prompt}\n\n### Task: Convert natural language to SQL.\nQuestion: {prompt_clean}\nSQL:",
-                    "parameters": {"max_new_tokens": 150, "temperature": 0.1, "return_full_text": False}
-                }
-                res = requests.post(url, headers=headers, json=payload, timeout=8)
-                if res.status_code == 200:
-                    out_text = res.json()[0].get('generated_text', '')
-                    sql_match = re.search(r"SELECT.*?;", out_text, re.IGNORECASE | re.DOTALL)
-                    if sql_match:
-                        sql_query = sql_match.group(0).strip()
-                        explanation = self.generate_explanation(sql_query, prompt_clean)
-                        return sql_query, explanation
-            except Exception as e:
-                logger.warning(f"HF SOTA API Exception: {e}")
+        if not gemini_key:
+            raise RuntimeError(
+                "GEMINI_API_KEY is not configured. Please add your GEMINI_API_KEY to the .env file in the project root."
+            )
 
-        # 3. Local Transformer Pipeline (if enabled)
-        if self.pipeline:
-            try:
-                formatted_prompt = f"### Schema:\n{schema_prompt}\n\n### Input: {prompt_clean}\n### SQL:"
-                result = self.pipeline(formatted_prompt, max_new_tokens=150, temperature=0.1)
-                raw_out = result[0]['generated_text']
-                sql_match = re.search(r"SELECT.*?;", raw_out, re.IGNORECASE | re.DOTALL)
-                if sql_match:
-                    sql_query = sql_match.group(0).strip()
-                    explanation = self.generate_explanation(sql_query, prompt_clean)
-                    return sql_query, explanation
-            except Exception as e:
-                logger.error(f"HF pipeline error: {e}")
+        ctx = self._prepare_rag(prompt_clean, rag_options)
+        schema_prompt = ctx.schema_text or format_schema_for_prompt()
+        full_prompt = build_sql_prompt(prompt_clean, schema_prompt, ctx.examples_text, ctx.include_static_block)
+        ctx.meta["prompt_chars"] = len(full_prompt)
 
-        # 4. SOTA DeepSeek/Qwen Neural-Semantic Translator
-        sql, explanation = self._sota_deepseek_translator(prompt_clean, schema_prompt)
-        return sql, explanation
+        try:
+            llm = call_gemini(full_prompt, gemini_key, DEFAULT_MODELS)
+        except LLMError as exc:
+            from fastapi import HTTPException
+            raise HTTPException(status_code=exc.status_code, detail=exc.detail)
 
-    def _sota_deepseek_translator(self, prompt: str, schema_str: str) -> Tuple[str, str]:
-        """
-        Frontier SOTA Neural-Semantic Translator.
-        Accurately parses ranges (between 7 to 9, from 7 and 9), single comparators,
-        target tables, columns, aggregations, ordering, and multi-table joins.
-        """
-        p = prompt.lower().strip()
-        schema_dict = inspect_db_schema()
+        self.model_name = llm.model
+        ctx.meta["prompt_tokens"] = llm.prompt_tokens
+        text_out = llm.text
 
-        # ---------------------------------------------------------------------
-        # 1. STUDENTS / CGPA / ACADEMIC PERFORMANCE (Handles Range & Comparators)
-        # ---------------------------------------------------------------------
-        if "student" in p or "cgpa" in p or "gpa" in p or "grade" in p:
-            # Range check: "between 7 to 9", "between 7 and 9", "from 7 to 9", "7 to 9"
-            range_match = re.search(r"(?:between|from|in range of|ranging from)\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
-            if not range_match:
-                range_match = re.search(r"(?:cgpa|gpa)\s*(?:of|is)?\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
+        # 1. Check for any SQL block in Gemini output
+        sql_match = re.search(r"```sql\s*(.*?);?\s*```", text_out, re.IGNORECASE | re.DOTALL)
+        raw_sql = sql_match.group(1).strip() if sql_match else ""
 
-            if range_match:
-                v1 = float(range_match.group(1))
-                v2 = float(range_match.group(2))
-                min_v, max_v = min(v1, v2), max(v1, v2)
-                sql = f"SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students WHERE cgpa BETWEEN {min_v} AND {max_v} ORDER BY cgpa DESC;"
-                exp = f"Queries all student records whose CGPA falls in the range between {min_v} and {max_v}, sorted from highest to lowest."
-                return sql, exp
+        # 2. Extract explanation
+        explanation_match = re.search(r"EXPLANATION:\s*(.*)", text_out, re.IGNORECASE | re.DOTALL)
+        if explanation_match:
+            explanation = explanation_match.group(1).strip()
+            explanation = re.sub(r"```.*", "", explanation).strip()
+        else:
+            explanation = f"Generated using Google Gemini ({self.model_name}) for query: '{prompt_clean}'."
 
-            # Single threshold check
-            num_match = re.search(r"(\d+(?:\.\d+)?)", p)
-            val = num_match.group(1) if num_match else None
+        # 3. Security Guardrail Analysis:
+        # Check both the extracted SQL and the user's prompt for destructive operations
+        has_destructive_intent = bool(DESTRUCTIVE_PROMPT_PATTERN.search(prompt_clean))
+        
+        detected_forbidden = []
+        if raw_sql:
+            words = re.findall(r"\b[A-Z_]+\b", raw_sql.upper())
+            for w in words:
+                if w in FORBIDDEN_KEYWORDS:
+                    detected_forbidden.append(w)
 
-            if any(w in p for w in ["above", "greater", ">", "more", "higher", "exceed", "over"]):
-                if val:
-                    sql = f"SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students WHERE cgpa > {val} ORDER BY cgpa DESC;"
-                    exp = f"Queries all student details whose CGPA exceeds {val}, ordered from highest to lowest."
-                    return sql, exp
-            elif any(w in p for w in ["below", "less", "<", "under", "lower"]):
-                if val:
-                    sql = f"SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students WHERE cgpa < {val} ORDER BY cgpa ASC;"
-                    exp = f"Queries all student details whose CGPA is below {val}, ordered from lowest to highest."
-                    return sql, exp
+        is_blocked = False
+        blocked_op = None
+        if detected_forbidden:
+            is_blocked = True
+            blocked_op = detected_forbidden[0]
+        elif has_destructive_intent:
+            is_blocked = True
+            prompt_match = DESTRUCTIVE_PROMPT_PATTERN.search(prompt_clean)
+            blocked_op = prompt_match.group(1).upper() if prompt_match else "DESTRUCTIVE_OPERATION"
 
-            top_match = re.search(r"(?:top|best|first)\s*(\d+)", p)
-            if top_match:
-                limit_num = top_match.group(1)
-                sql = f"SELECT student_id, first_name, last_name, cgpa FROM students ORDER BY cgpa DESC LIMIT {limit_num};"
-                exp = f"Fetches the top {limit_num} students ranked by CGPA performance."
-                return sql, exp
+        # If a destructive or unsafe query was detected, intercept it!
+        if is_blocked:
+            safe_alt = raw_sql if (raw_sql and raw_sql.upper().strip().startswith("SELECT")) else self._convert_to_safe_alternative(raw_sql or prompt_clean)
+            display_blocked = raw_sql if (raw_sql and not raw_sql.upper().strip().startswith("SELECT")) else f"{blocked_op} statement requested: '{prompt_clean}'"
+            return {
+                "is_safe": False,
+                "blocked": True,
+                "violation_type": "DESTRUCTIVE_OPERATION_RESTRICTED",
+                "blocked_operation": blocked_op,
+                "blocked_sql": display_blocked,
+                "generated_sql": safe_alt,
+                "suggested_safe_sql": safe_alt,
+                "explanation": explanation or f"The request asks to perform a '{blocked_op}' operation, but this system strictly enforces read-only access to prevent database modification.",
+                "security_message": f"Security Guardrail Triggered: The '{blocked_op}' operation is prohibited. Write, delete, and alter permissions are permanently disabled to prevent data loss.",
+                "rag": ctx.meta
+            }
 
-            sql = "SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students ORDER BY cgpa DESC;"
-            exp = "Fetches complete student roster sorted by CGPA."
-            return sql, exp
+        # If clean, ensure it's a valid SELECT query
+        if not raw_sql:
+            # Fallback regex
+            select_match = re.search(r"(SELECT.*?;)", text_out, re.IGNORECASE | re.DOTALL)
+            if select_match:
+                raw_sql = select_match.group(1).strip()
 
-        # ---------------------------------------------------------------------
-        # 2. PRODUCTS / SALES / E-COMMERCE REVENUE
-        # ---------------------------------------------------------------------
-        if "product" in p or "sale" in p or "order" in p or "revenue" in p or "price" in p or "stock" in p:
-            # Price range check
-            range_match = re.search(r"(?:between|from|in range of)\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
-            if range_match and ("price" in p or "cost" in p):
-                v1 = float(range_match.group(1))
-                v2 = float(range_match.group(2))
-                min_v, max_v = min(v1, v2), max(v1, v2)
-                sql = f"SELECT product_id, product_name, category, unit_price, stock_quantity FROM products WHERE unit_price BETWEEN {min_v} AND {max_v} ORDER BY unit_price DESC;"
-                exp = f"Retrieves products priced between ${min_v} and ${max_v}."
-                return sql, exp
+        if not raw_sql:
+            raise RuntimeError(f"Google Gemini generated output but no valid SQL SELECT query was found. Raw response: {text_out}")
 
-            if "revenue" in p or "top" in p or "sale" in p or "best" in p or "highest" in p:
-                limit_match = re.search(r"(\d+)", p)
-                lim = limit_match.group(1) if limit_match else "5"
-                sql = f"""SELECT p.product_id, p.product_name, p.category, SUM(oi.quantity * oi.price_per_unit) AS total_revenue 
-FROM products p 
-JOIN order_items oi ON p.product_id = oi.product_id 
-GROUP BY p.product_id, p.product_name, p.category 
-ORDER BY total_revenue DESC 
-LIMIT {lim};"""
-                exp = f"Calculates total revenue by joining products with order items, displaying top {lim} products."
-                return sql, exp
+        if not raw_sql.endswith(";"):
+            raw_sql += ";"
 
-            if "stock" in p or "inventory" in p or "low" in p:
-                num_match = re.search(r"(\d+)", p)
-                stock_val = num_match.group(1) if num_match else "50"
-                sql = f"SELECT product_name, category, unit_price, stock_quantity FROM products WHERE stock_quantity < {stock_val} ORDER BY stock_quantity ASC;"
-                exp = f"Retrieves products with stock below {stock_val} units."
-                return sql, exp
-
-            sql = "SELECT product_id, product_name, category, unit_price, stock_quantity FROM products ORDER BY unit_price DESC;"
-            exp = "Retrieves all products listed by price in descending order."
-            return sql, exp
-
-        # ---------------------------------------------------------------------
-        # 3. EMPLOYEES / CORPORATE SALARIES / DEPARTMENTS
-        # ---------------------------------------------------------------------
-        if "employee" in p or "salary" in p or "department" in p or "hire" in p:
-            range_match = re.search(r"(?:between|from|in range of)\s*(\d+(?:\.\d+)?)\s*(?:to|and|-)\s*(\d+(?:\.\d+)?)", p)
-            if range_match and "salary" in p:
-                v1 = float(range_match.group(1))
-                v2 = float(range_match.group(2))
-                min_v, max_v = min(v1, v2), max(v1, v2)
-                sql = f"SELECT e.emp_name, e.job_title, d.dept_name, e.salary FROM employees e JOIN corp_departments d ON e.dept_id = d.dept_id WHERE e.salary BETWEEN {min_v} AND {max_v} ORDER BY e.salary DESC;"
-                exp = f"Filters employees with salary between ${min_v} and ${max_v}."
-                return sql, exp
-
-            if "avg" in p or "average" in p:
-                if "department" in p:
-                    sql = """SELECT d.dept_name, ROUND(AVG(e.salary), 2) AS average_salary, COUNT(e.emp_id) AS total_employees 
-FROM corp_departments d 
-JOIN employees e ON d.dept_id = e.dept_id 
-GROUP BY d.dept_id, d.dept_name 
-ORDER BY average_salary DESC;"""
-                    exp = "Aggregates average salary and headcount grouped by corporate department."
-                    return sql, exp
-
-                sql = "SELECT ROUND(AVG(salary), 2) AS average_salary FROM employees;"
-                exp = "Calculates average employee salary across all departments."
-                return sql, exp
-
-            if "highest" in p or "top" in p or "max" in p or "paid" in p:
-                sql = "SELECT e.emp_name, e.job_title, d.dept_name, e.salary FROM employees e JOIN corp_departments d ON e.dept_id = d.dept_id ORDER BY e.salary DESC LIMIT 5;"
-                exp = "Returns top 5 highest paid employees with job title and department."
-                return sql, exp
-
-            sql = "SELECT e.emp_name, e.job_title, d.dept_name, e.salary, e.hire_date FROM employees e JOIN corp_departments d ON e.dept_id = d.dept_id;"
-            exp = "Lists all employees with their corporate department details."
-            return sql, exp
-
-        # ---------------------------------------------------------------------
-        # 4. COURSES & INSTRUCTORS
-        # ---------------------------------------------------------------------
-        if "course" in p or "enroll" in p or "instructor" in p:
-            sql = """SELECT c.course_code, c.course_title, COUNT(e.enrollment_id) AS student_count 
-FROM courses c 
-LEFT JOIN enrollments e ON c.course_id = e.course_id 
-GROUP BY c.course_id, c.course_code, c.course_title 
-ORDER BY student_count DESC;"""
-            exp = "Aggregates total student course enrollments per course."
-            return sql, exp
-
-        # Dynamic Schema Reflection
-        matched_tables = []
-        if schema_dict:
-            for tbl in schema_dict.keys():
-                if tbl.lower() in p or tbl[:-1].lower() in p:
-                    matched_tables.append(tbl)
-
-        if matched_tables:
-            primary_tbl = matched_tables[0]
-            cols = schema_dict[primary_tbl]["columns"]
-            cols_list = ", ".join(cols[:6])
-            sql = f"SELECT {cols_list} FROM {primary_tbl} LIMIT 10;"
-            exp = f"Queries the top 10 records from '{primary_tbl}'."
-            return sql, exp
-
-        # Fallback
-        sql = "SELECT student_id, first_name, last_name, cgpa, enrollment_year FROM students WHERE cgpa > 8.0 ORDER BY cgpa DESC;"
-        exp = "Queries student records with CGPA > 8.0."
-        return sql, exp
-
-    def generate_explanation(self, sql_query: str, original_prompt: str) -> str:
-        """Generates plain-English explanation of the SQL query."""
-        sql_upper = sql_query.upper()
-        parts = []
-
-        from_match = re.search(r"FROM\s+([a-zA-Z_]+)", sql_upper)
-        if from_match:
-            parts.append(f"Queries table '{from_match.group(1).lower()}'")
-
-        if "JOIN" in sql_upper:
-            parts.append("joins schema tables")
-
-        if "BETWEEN" in sql_upper:
-            between_match = re.search(r"BETWEEN\s+(\d+(?:\.\d+)?)\s+AND\s+(\d+(?:\.\d+)?)", sql_upper)
-            if between_match:
-                parts.append(f"filters range between {between_match.group(1)} and {between_match.group(2)}")
-
-        elif "WHERE" in sql_upper:
-            where_part = re.search(r"WHERE\s+(.*?)(?:GROUP BY|ORDER BY|LIMIT|;|$)", sql_upper, re.DOTALL)
-            if where_part:
-                cond = where_part.group(1).strip().lower()
-                parts.append(f"filters rows with condition '{cond}'")
-
-        if "GROUP BY" in sql_upper:
-            parts.append("groups and aggregates dataset metrics")
-
-        if "ORDER BY" in sql_upper:
-            parts.append("sorts final result rows")
-
-        if "LIMIT" in sql_upper:
-            parts.append("restricts returned output rows")
-
-        if parts:
-            return "This SOTA query " + ", ".join(parts) + "."
-        return f"Executes SQL query corresponding to: '{original_prompt}'."
+        return {
+            "is_safe": True,
+            "blocked": False,
+            "violation_type": None,
+            "blocked_operation": None,
+            "blocked_sql": None,
+            "generated_sql": raw_sql,
+            "suggested_safe_sql": None,
+            "explanation": explanation,
+            "security_message": None,
+            "rag": ctx.meta
+        }
 
 ai_service = TextToSQLAIService()

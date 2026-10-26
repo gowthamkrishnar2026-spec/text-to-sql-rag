@@ -1,0 +1,14 @@
+{
+  "run_timestamp": "2026-10-15T03:57:25.859678",
+  "total_cases": 30,
+  "metrics": {
+    "generation_success_rate": 0.9666666666666667,
+    "execution_accuracy": 0.8333333333333334,
+    "column_match_rate": 0.6333333333333333,
+    "exact_match_rate": 0.2,
+    "avg_latency_ms": 5631.633333333334,
+    "blocked_count": 0
+  },
+  "runtime_seconds": 168.98,
+  "rag_mode": "on"
+}

@@ -34,19 +34,19 @@ export default function ResultsTable({
   const paginatedRows = filteredRows.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   return (
-    <div className="w-full glass-panel rounded-2xl p-5 shadow-xl border border-slate-800 flex flex-col h-full">
+    <div className="w-full claude-card p-5 shadow-xl flex flex-col h-full">
       
       {/* Header bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-[#2b2b27]">
         <div className="flex items-center space-x-3">
-          <div className="p-2 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
-            <TableIcon className="w-5 h-5" />
+          <div className="p-2 rounded-lg bg-[#242421] border border-[#33332f] text-[#d97757]">
+            <TableIcon className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="font-semibold text-white text-base">Query Results</h3>
-            <div className="flex items-center space-x-3 text-xs text-slate-400 mt-0.5">
-              <span className="flex items-center space-x-1 font-mono text-slate-300">
-                <Database className="w-3.5 h-3.5 text-indigo-400" />
+            <h3 className="font-semibold text-[#f3f3ee] text-sm">Execution Output</h3>
+            <div className="flex items-center space-x-3 text-xs text-[#a1a19a] mt-0.5">
+              <span className="flex items-center space-x-1 font-mono text-[#f3f3ee]">
+                <Database className="w-3.5 h-3.5 text-[#d97757]" />
                 <span>{rowCount} rows</span>
               </span>
               <span>•</span>
@@ -61,7 +61,7 @@ export default function ResultsTable({
         {/* Controls: Search + Export */}
         <div className="flex items-center space-x-2">
           <div className="relative">
-            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+            <Search className="w-3.5 h-3.5 text-[#686861] absolute left-3 top-2.5" />
             <input
               type="text"
               value={searchTerm}
@@ -69,46 +69,46 @@ export default function ResultsTable({
                 setSearchTerm(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search in table..."
-              className="pl-8 pr-3 py-1.5 bg-slate-900 border border-slate-700/80 rounded-lg text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 w-44"
+              placeholder="Filter output..."
+              className="pl-8 pr-3 py-1.5 bg-[#111110] border border-[#282824] rounded-lg text-xs text-[#f3f3ee] placeholder-[#686861] focus:outline-none focus:border-[#d97757] w-40"
             />
           </div>
 
           <button
             onClick={onExportClick}
-            className="flex items-center space-x-1.5 text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-colors font-medium"
+            className="flex items-center space-x-1.5 text-xs px-3 py-1.5 rounded-lg bg-[#242421] hover:bg-[#2e2e2a] text-[#f3f3ee] border border-[#33332f] transition-colors font-medium"
           >
-            <Download className="w-3.5 h-3.5 text-blue-400" />
+            <Download className="w-3.5 h-3.5 text-[#d97757]" />
             <span>Export</span>
           </button>
         </div>
       </div>
 
       {/* Table Container */}
-      <div className="flex-1 overflow-x-auto rounded-xl border border-slate-800 bg-slate-950/60 max-h-[420px]">
+      <div className="flex-1 overflow-x-auto rounded-xl border border-[#2b2b27] bg-[#111110] max-h-[400px]">
         {columns.length === 0 || paginatedRows.length === 0 ? (
-          <div className="py-16 text-center text-slate-500 flex flex-col items-center justify-center">
-            <Database className="w-8 h-8 text-slate-600 mb-2" />
-            <p className="text-sm font-medium">No record rows found matching criteria</p>
+          <div className="py-16 text-center text-[#686861] flex flex-col items-center justify-center">
+            <Database className="w-8 h-8 text-[#383833] mb-2" />
+            <p className="text-xs font-medium">No record rows found matching criteria</p>
           </div>
         ) : (
           <table className="w-full text-left text-xs border-collapse">
-            <thead className="bg-slate-900/90 text-slate-300 font-semibold sticky top-0 border-b border-slate-800 backdrop-blur-md">
+            <thead className="bg-[#1c1c1a] text-[#a1a19a] font-semibold sticky top-0 border-b border-[#2b2b27]">
               <tr>
                 {columns.map((col, idx) => (
-                  <th key={idx} className="px-4 py-3 uppercase tracking-wider font-mono text-[11px] text-indigo-300">
+                  <th key={idx} className="px-4 py-2.5 uppercase tracking-wider font-mono text-[10px] text-[#f4a284]">
                     {col}
                   </th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-200">
+            <tbody className="divide-y divide-[#242421] text-[#f3f3ee]">
               {paginatedRows.map((row, rIdx) => (
-                <tr key={rIdx} className="hover:bg-slate-800/40 transition-colors">
+                <tr key={rIdx} className="hover:bg-[#1a1a18] transition-colors">
                   {columns.map((col, cIdx) => (
-                    <td key={cIdx} className="px-4 py-2.5 whitespace-nowrap font-mono text-slate-300">
+                    <td key={cIdx} className="px-4 py-2.5 whitespace-nowrap font-mono text-xs text-[#a1a19a]">
                       {row[col] === null || row[col] === undefined ? (
-                        <span className="text-slate-600 italic">null</span>
+                        <span className="text-[#686861] italic">null</span>
                       ) : (
                         String(row[col])
                       )}
@@ -123,7 +123,7 @@ export default function ResultsTable({
 
       {/* Pagination Bar */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-3 pt-2 text-xs text-slate-400">
+        <div className="flex items-center justify-between mt-3 pt-2 text-xs text-[#a1a19a]">
           <span>
             Page {currentPage} of {totalPages}
           </span>
@@ -131,14 +131,14 @@ export default function ResultsTable({
             <button
               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="p-1 rounded bg-slate-800 disabled:opacity-40 hover:bg-slate-700"
+              className="p-1 rounded bg-[#242421] disabled:opacity-40 hover:bg-[#2e2e2a]"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="p-1 rounded bg-slate-800 disabled:opacity-40 hover:bg-slate-700"
+              className="p-1 rounded bg-[#242421] disabled:opacity-40 hover:bg-[#2e2e2a]"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -148,3 +148,4 @@ export default function ResultsTable({
     </div>
   );
 }
+

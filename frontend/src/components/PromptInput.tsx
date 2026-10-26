@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, Sparkles, Send, Lightbulb, Loader2 } from 'lucide-react';
+import { Search, Sparkles, Send, Lightbulb, Loader2, Layers } from 'lucide-react';
 
 interface PromptInputProps {
   onSubmit: (prompt: string) => void;
   isLoading: boolean;
+  useRag?: boolean;
+  onToggleRag?: (value: boolean) => void;
 }
 
 const SAMPLE_PROMPTS = [
@@ -16,7 +18,7 @@ const SAMPLE_PROMPTS = [
   "List low stock products under 50 units"
 ];
 
-export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
+export default function PromptInput({ onSubmit, isLoading, useRag = true, onToggleRag }: PromptInputProps) {
   const [prompt, setPrompt] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -34,46 +36,60 @@ export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
   };
 
   return (
-    <div className="w-full glass-panel rounded-2xl p-5 sm:p-6 shadow-2xl relative overflow-hidden gradient-border-glow">
-      {/* Background Glows */}
-      <div className="ambient-glow-blue -top-20 -left-20" />
-      <div className="ambient-glow-purple -bottom-20 -right-20" />
-
+    <div className="w-full claude-card p-5 sm:p-6 shadow-xl relative overflow-hidden">
       <form onSubmit={handleSubmit} className="relative z-10 space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-bold text-slate-200 flex items-center space-x-2">
-            <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
-            <span>Ask Natural Language Question</span>
+          <label className="text-xs uppercase font-mono tracking-wider font-semibold text-[#a1a19a] flex items-center space-x-2">
+            <Sparkles className="w-3.5 h-3.5 text-[#d97757]" />
+            <span>Interactive Natural Language Workbench</span>
           </label>
-          <span className="text-xs text-indigo-400 font-mono font-medium">English → SOTA PostgreSQL</span>
+          <div className="flex items-center space-x-3">
+            {onToggleRag && (
+              <button
+                type="button"
+                onClick={() => onToggleRag(!useRag)}
+                disabled={isLoading}
+                title="Retrieval-Augmented Generation: add similar solved questions (and, for large databases, only relevant tables) to the prompt"
+                className={`flex items-center space-x-1.5 text-[11px] px-2.5 py-1 rounded-full font-mono font-medium border transition-all ${
+                  useRag ? 'badge-terracotta' : 'bg-[#242421] text-[#686861] border-[#33332f] hover:text-[#a1a19a]'
+                }`}
+              >
+                <Layers className="w-3 h-3" />
+                <span>RAG {useRag ? 'On' : 'Off'}</span>
+              </button>
+            )}
+            <span className="text-xs text-[#a1a19a] font-mono hidden sm:inline">
+              Gemini 3.6 Flash → PostgreSQL
+            </span>
+          </div>
         </div>
 
         <div className="relative flex items-center">
-          <div className="absolute left-4 text-slate-400 pointer-events-none">
-            <Search className="w-5 h-5 text-indigo-400" />
+          <div className="absolute left-4 text-[#686861] pointer-events-none">
+            <Search className="w-5 h-5 text-[#d97757]" />
           </div>
           <input
             type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="e.g. Show all students with CGPA between 7 to 9."
+            placeholder="Describe what data you want to query in plain English..."
             disabled={isLoading}
-            className="w-full pl-12 pr-36 py-4 bg-slate-950/90 border border-slate-700/80 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/60 focus:border-indigo-500 transition-all text-sm sm:text-base shadow-inner font-sans"
+            className="w-full pl-12 pr-36 py-3.5 bg-[#111110] border border-[#282824] rounded-xl text-[#f3f3ee] placeholder-[#686861] focus:outline-none focus:border-[#d97757] transition-all text-sm font-sans"
           />
           <button
             type="submit"
             disabled={!prompt.trim() || isLoading}
-            className="absolute right-2.5 px-4 py-2.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-semibold text-xs sm:text-sm flex items-center space-x-2 shadow-lg shadow-indigo-500/30 transition-all active:scale-95"
+            className="absolute right-2 px-4 py-2 bg-[#d97757] hover:bg-[#e28363] disabled:opacity-50 text-white rounded-lg font-medium text-xs sm:text-sm flex items-center space-x-2 transition-all shadow-sm"
           >
             {isLoading ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin text-white" />
-                <span>Processing...</span>
+                <span>Running...</span>
               </>
             ) : (
               <>
-                <span>Generate & Run</span>
-                <Send className="w-3.5 h-3.5" />
+                <span>Run Query</span>
+                <Send className="w-3 h-3" />
               </>
             )}
           </button>
@@ -82,16 +98,16 @@ export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
 
       {/* Suggested Chips */}
       <div className="mt-4 flex items-center flex-wrap gap-2 relative z-10">
-        <span className="text-xs text-slate-400 font-medium flex items-center space-x-1 mr-1">
-          <Lightbulb className="w-3.5 h-3.5 text-amber-400" />
-          <span>Suggestions:</span>
+        <span className="text-xs text-[#686861] font-medium flex items-center space-x-1 mr-1">
+          <Lightbulb className="w-3.5 h-3.5 text-[#d97757]" />
+          <span>Popular Prompts:</span>
         </span>
         {SAMPLE_PROMPTS.map((sample, idx) => (
           <button
             key={idx}
             onClick={() => handleChipClick(sample)}
             disabled={isLoading}
-            className="text-xs px-3.5 py-1.5 rounded-full bg-slate-900/90 hover:bg-indigo-600/20 text-slate-300 hover:text-indigo-300 border border-slate-800 hover:border-indigo-500/40 transition-all font-medium"
+            className="text-xs px-3 py-1 rounded-full bg-[#242421] hover:bg-[#2e2e2a] text-[#a1a19a] hover:text-[#f3f3ee] border border-[#33332f] hover:border-[#d97757]/40 transition-all font-medium"
           >
             {sample}
           </button>
@@ -100,3 +116,4 @@ export default function PromptInput({ onSubmit, isLoading }: PromptInputProps) {
     </div>
   );
 }
+

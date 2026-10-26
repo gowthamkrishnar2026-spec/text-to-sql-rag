@@ -1,0 +1,1036 @@
+{
+  "run_timestamp": "2026-10-15T02:21:54.165081",
+  "prompts": 42,
+  "runtime_seconds": 99.2,
+  "workers": 4,
+  "off": {
+    "prompts": 40,
+    "executed_ok_rate": 0.975,
+    "match_previous_rate": 0.85,
+    "with_reference": 40,
+    "avg_latency_ms": 4592.4400000000005,
+    "errors": 1,
+    "guardrail_total": 2,
+    "guardrail_held": 2
+  },
+  "on": {
+    "prompts": 40,
+    "executed_ok_rate": 0.975,
+    "match_previous_rate": 0.975,
+    "with_reference": 40,
+    "avg_latency_ms": 4999.312499999999,
+    "errors": 1,
+    "guardrail_total": 2,
+    "guardrail_held": 2
+  },
+  "fixed": 6,
+  "broke": 1,
+  "records": [
+    {
+      "prompt": "Average CGPA per department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT d.department_name, ROUND(AVG(s.cgpa), 2) AS avg_cgpa \nFROM students s \nJOIN departments d ON s.department_id = d.department_id \nGROUP BY d.department_id, d.department_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT d.department_name, AVG(s.cgpa) AS average_cgpa \nFROM departments d \nJOIN students s ON d.department_id = s.department_id \nGROUP BY d.department_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1427.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT d.department_name, ROUND(AVG(s.cgpa), 2) AS avg_cgpa \nFROM students s \nJOIN departments d ON s.department_id = d.department_id \nGROUP BY d.department_id, d.department_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1648.9,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Average order value per customer country",
+      "expect_blocked": false,
+      "reference_sql": "SELECT c.country, AVG(o.total_amount) AS average_order_value \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nGROUP BY c.country;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT \n    c.country, \n    AVG(o.total_amount) AS average_order_value\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.country;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 10180.1,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT \n    c.country, \n    AVG(o.total_amount) AS average_order_value\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.country\nORDER BY average_order_value DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 6648.1,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Average salary per corporate department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT cd.dept_name, ROUND(AVG(e.salary), 2) AS avg_salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id GROUP BY cd.dept_id, cd.dept_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT cd.dept_name, AVG(e.salary) AS average_salary \nFROM corp_departments cd \nJOIN employees e ON cd.dept_id = e.dept_id \nGROUP BY cd.dept_name \nORDER BY average_salary DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1394.3,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT cd.dept_name, ROUND(AVG(e.salary), 2) AS avg_salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id GROUP BY cd.dept_id, cd.dept_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1844.5,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "delete all the departments",
+      "expect_blocked": true,
+      "reference_sql": null,
+      "reference_ok": false,
+      "off": {
+        "sql": "SELECT department_id, department_name, building, budget \nFROM departments",
+        "executed": false,
+        "match": false,
+        "blocked": true,
+        "latency_ms": 5614.0,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT department_id, department_name, building, budget FROM departments",
+        "executed": false,
+        "match": false,
+        "blocked": true,
+        "latency_ms": 1628.1,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "insert a student named Gotham with 7 cgpa and use department",
+      "expect_blocked": true,
+      "reference_sql": null,
+      "reference_ok": false,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa, department_id FROM students WHERE cgpa = 7.0",
+        "executed": false,
+        "match": false,
+        "blocked": true,
+        "latency_ms": 1016.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT \n    'Gotham' AS first_name, \n    7.00 AS cgpa, \n    department_id \nFROM departments \nWHERE department_name = 'Computer Science'",
+        "executed": false,
+        "match": false,
+        "blocked": true,
+        "latency_ms": 1668.9,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List all courses with their instructor names",
+      "expect_blocked": false,
+      "reference_sql": "SELECT c.course_title, i.name AS instructor_name FROM courses c LEFT JOIN instructors i ON c.instructor_id = i.instructor_id;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT c.course_code, c.course_title, i.name AS instructor_name \nFROM courses c \nLEFT JOIN instructors i ON c.instructor_id = i.instructor_id;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1082.5,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT c.course_title, i.name AS instructor_name FROM courses c LEFT JOIN instructors i ON c.instructor_id = i.instructor_id;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1463.2,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List all customers from India",
+      "expect_blocked": false,
+      "reference_sql": "SELECT customer_name, city, country FROM customers WHERE country = 'India';",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT customer_id, customer_name, city, country, created_at \nFROM customers \nWHERE country = 'India';",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 10584.2,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT customer_id, customer_name, city, country \nFROM customers \nWHERE country = 'India';",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 8942.9,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List all departments",
+      "expect_blocked": false,
+      "reference_sql": "SELECT department_id, department_name, building, budget FROM departments;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT department_id, department_name, building, budget FROM departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 796.8,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT department_id, department_name, building, budget FROM departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2758.7,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List all employees",
+      "expect_blocked": false,
+      "reference_sql": "SELECT emp_id, emp_name, job_title, dept_id, hire_date, salary FROM employees;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT emp_id, emp_name, job_title, dept_id, hire_date, salary FROM employees;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1125.1,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT emp_id, emp_name, job_title, dept_id, hire_date, salary FROM employees;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1939.7,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List all products",
+      "expect_blocked": false,
+      "reference_sql": "SELECT product_id, product_name, category, unit_price, stock_quantity FROM products;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT product_id, product_name, category, unit_price, stock_quantity FROM products;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 5180.7,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT product_name, category, unit_price, stock_quantity FROM products;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 4040.6,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "list all the departments",
+      "expect_blocked": false,
+      "reference_sql": "SELECT * FROM departments;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT department_id, department_name, building, budget FROM departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 961.1,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT department_id, department_name, building, budget FROM departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1414.3,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "list all the students group by department and display their counts",
+      "expect_blocked": false,
+      "reference_sql": "SELECT \n    d.department_name, \n    COUNT(s.student_id) AS student_count\nFROM \n    departments d\nJOIN \n    students s ON d.department_id = s.department_id\nGROUP BY \n    d.department_id, d.department_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT d.department_name, COUNT(s.student_id) AS student_count\nFROM departments d\nLEFT JOIN students s ON d.department_id = s.department_id\nGROUP BY d.department_id, d.department_name\nORDER BY student_count DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1200.1,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT d.department_name, COUNT(s.student_id) AS student_count FROM departments d LEFT JOIN students s ON d.department_id = s.department_id GROUP BY d.department_id, d.department_name ORDER BY student_count DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1863.3,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List employees hired after 2020 with their department name",
+      "expect_blocked": false,
+      "reference_sql": "SELECT e.emp_name, e.hire_date, cd.dept_name \nFROM employees e \nJOIN corp_departments cd ON e.dept_id = cd.dept_id \nWHERE e.hire_date > '2020-12-31';",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT e.emp_name, e.job_title, cd.dept_name, e.hire_date \nFROM employees e \nJOIN corp_departments cd ON e.dept_id = cd.dept_id \nWHERE e.hire_date > '2020-01-01' \nORDER BY e.hire_date ASC;",
+        "executed": true,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 1229.6,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT e.emp_name, cd.dept_name, e.hire_date \nFROM employees e \nJOIN corp_departments cd ON e.dept_id = cd.dept_id \nWHERE e.hire_date > '2020-12-31';",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1876.5,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "List products with low stock under 50 units",
+      "expect_blocked": false,
+      "reference_sql": "SELECT product_name, stock_quantity, category, unit_price \nFROM products \nWHERE stock_quantity < 50 \nORDER BY stock_quantity ASC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT product_id, product_name, category, stock_quantity\nFROM products\nWHERE stock_quantity < 50\nORDER BY stock_quantity ASC;",
+        "executed": true,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 10551.5,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT product_name, stock_quantity\nFROM products\nWHERE stock_quantity < 50\nORDER BY stock_quantity ASC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 10956.7,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "select * from students",
+      "expect_blocked": false,
+      "reference_sql": "SELECT * FROM students;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year \nFROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1023.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2049.8,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "select all from students",
+      "expect_blocked": false,
+      "reference_sql": "SELECT * FROM students;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1153.2,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1711.9,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "select all from students and group them by department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT department_id, COUNT(student_id) AS student_count\nFROM students\nGROUP BY department_id;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT d.department_name, s.department_id, COUNT(s.student_id) AS student_count\nFROM students s\nJOIN departments d ON s.department_id = d.department_id\nGROUP BY d.department_name, s.department_id;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1742.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT department_id, COUNT(student_id) AS student_count FROM students GROUP BY department_id;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2109.6,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "select all student with age above 20",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, email, cgpa, enrollment_year \nFROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1103.0,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2080.1,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "select all students with cgpa greater that 8 and less than 8.12",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, cgpa \nFROM students \nWHERE cgpa > 8 AND cgpa < 8.12 \nORDER BY cgpa DESC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa \nFROM students \nWHERE cgpa > 8.0 AND cgpa < 8.12;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2859.4,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa \nFROM students \nWHERE cgpa > 8.0 AND cgpa < 8.12;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 14849.3,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show all corporate departments with their locations",
+      "expect_blocked": false,
+      "reference_sql": "SELECT dept_name, location FROM corp_departments;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT dept_id, dept_name, location FROM corp_departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1129.7,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT dept_name, location FROM corp_departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1329.0,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show all orders",
+      "expect_blocked": false,
+      "reference_sql": "SELECT order_id, customer_id, order_date, total_amount, status FROM orders;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT order_id, customer_id, order_date, total_amount, status\nFROM orders;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 9860.2,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT order_id, customer_id, order_date, total_amount, status FROM orders;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 3890.7,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show all students",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year \nFROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 16174.8,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 14188.3,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show all students with CGPA between 7 to 9",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, cgpa FROM students WHERE cgpa BETWEEN 7.0 AND 9.0 ORDER BY cgpa DESC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa \nFROM students \nWHERE cgpa BETWEEN 7.0 AND 9.0 \nORDER BY cgpa DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1390.2,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa FROM students WHERE cgpa BETWEEN 7.0 AND 9.0 ORDER BY cgpa DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1201.1,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show all students with CGPA greater than 8",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, email, cgpa, enrollment_year\nFROM students\nWHERE cgpa > 8;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa FROM students WHERE cgpa > 8.0 ORDER BY cgpa DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 888.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa\nFROM students\nWHERE cgpa > 8;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 15488.8,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show completed orders with customer names",
+      "expect_blocked": false,
+      "reference_sql": "SELECT o.order_id, c.customer_name, o.order_date, o.total_amount, o.status \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.status = 'Completed';",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT \n    o.order_id, \n    o.order_date, \n    o.total_amount, \n    c.customer_name \nFROM orders o\nJOIN customers c ON o.customer_id = c.customer_id\nWHERE o.status = 'Completed';",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 9045.5,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": null,
+        "executed": false,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 27011.5,
+        "error": "HTTPException: 429: Google Gemini API free tier rate limit reached. Please wait 10-15 seconds and try again."
+      }
+    },
+    {
+      "prompt": "Show customer name with their total number of orders and total amount spent",
+      "expect_blocked": false,
+      "reference_sql": "SELECT c.customer_name, COUNT(o.order_id) AS total_orders, SUM(o.total_amount) AS total_amount_spent FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id, c.customer_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT \n    c.customer_name, \n    COUNT(o.order_id) AS total_orders, \n    SUM(o.total_amount) AS total_amount_spent\nFROM customers c\nJOIN orders o ON c.customer_id = o.customer_id\nGROUP BY c.customer_id, c.customer_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 6779.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT \n    c.customer_name, \n    COUNT(o.order_id) AS total_orders, \n    SUM(o.total_amount) AS total_spent \nFROM customers c \nLEFT JOIN orders o ON c.customer_id = o.customer_id \nGROUP BY c.customer_id, c.customer_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 7828.2,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show employees with salary greater than 100000",
+      "expect_blocked": false,
+      "reference_sql": "SELECT emp_name, salary FROM employees WHERE salary > 100000 ORDER BY salary DESC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT emp_id, emp_name, job_title, dept_id, hire_date, salary \nFROM employees \nWHERE salary > 100000;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1118.4,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT emp_name, job_title, salary \nFROM employees \nWHERE salary > 100000 \nORDER BY salary DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1534.8,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show instructor names and their department budget",
+      "expect_blocked": false,
+      "reference_sql": "SELECT i.name AS instructor_name, d.budget AS department_budget \nFROM instructors i \nJOIN departments d ON i.department_id = d.department_id;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT i.name, d.department_name, d.budget \nFROM instructors i \nJOIN departments d ON i.department_id = d.department_id;",
+        "executed": true,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 14637.8,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT i.name AS instructor_name, d.budget AS department_budget \nFROM instructors i \nJOIN departments d ON i.department_id = d.department_id;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2038.9,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show orders placed in February 2024 with customer details",
+      "expect_blocked": false,
+      "reference_sql": "SELECT o.order_id, c.customer_id, c.customer_name, c.city, c.country, o.order_date, o.total_amount, o.status \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.order_date BETWEEN '2024-02-01' AND '2024-02-29';",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT o.order_id, o.order_date, o.total_amount, o.status, c.customer_id, c.customer_name, c.city, c.country \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.order_date >= '2024-02-01' AND o.order_date <= '2024-02-29';",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1124.7,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT o.order_id, o.order_date, o.total_amount, o.status, c.customer_id, c.customer_name, c.city, c.country \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.order_date BETWEEN '2024-02-01' AND '2024-02-29';",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1566.7,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show students enrolled in 2023",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year FROM students WHERE enrollment_year = 2023;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year \nFROM students \nWHERE enrollment_year = 2023;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1012.4,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, email, cgpa, enrollment_year FROM students WHERE enrollment_year = 2023;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1603.6,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show students who got grade A or A+ in any course",
+      "expect_blocked": false,
+      "reference_sql": "SELECT DISTINCT s.student_id, s.first_name, s.last_name, s.email, e.grade \nFROM students s \nJOIN enrollments e ON s.student_id = e.student_id \nWHERE e.grade IN ('A', 'A+') \nORDER BY s.last_name, s.first_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT DISTINCT s.student_id, s.first_name, s.last_name \nFROM students s \nJOIN enrollments e ON s.student_id = e.student_id \nWHERE e.grade IN ('A', 'A+');",
+        "executed": true,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 15346.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT DISTINCT s.first_name, s.last_name, e.grade\nFROM students s\nJOIN enrollments e ON s.student_id = e.student_id\nWHERE e.grade IN ('A', 'A+');",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 3162.4,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show students with CGPA between 8 and 9.5",
+      "expect_blocked": false,
+      "reference_sql": "SELECT student_id, first_name, last_name, email, department_id, cgpa, enrollment_year \nFROM students \nWHERE cgpa BETWEEN 8 AND 9.5 \nORDER BY cgpa DESC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa \nFROM students \nWHERE cgpa BETWEEN 8.0 AND 9.5 \nORDER BY cgpa DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1314.5,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT student_id, first_name, last_name, cgpa \nFROM students \nWHERE cgpa BETWEEN 8.0 AND 9.5 \nORDER BY cgpa DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1674.6,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show the highest paid employee in each department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT cd.dept_name, e.emp_name, e.salary \nFROM employees e \nJOIN corp_departments cd ON e.dept_id = cd.dept_id \nWHERE e.salary = (\n    SELECT MAX(e2.salary) \n    FROM employees e2 \n    WHERE e2.dept_id = e.dept_id\n);",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT cd.dept_name, e.emp_name, e.salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id WHERE e.salary = (SELECT MAX(e2.salary) FROM employees e2 WHERE e2.dept_id = e.dept_id);",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1137.0,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "WITH RankedEmployees AS (\n    SELECT \n        e.emp_name,\n        cd.dept_name,\n        e.salary,\n        ROW_NUMBER() OVER (PARTITION BY e.dept_id ORDER BY e.salary DESC) as rn\n    FROM employees e\n    JOIN corp_departments cd ON e.dept_id = cd.dept_id\n)\nSELECT emp_name, dept_name, salary\nFROM RankedEmployees\nWHERE rn = 1;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2148.8,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Show top 3 students by CGPA with their department name",
+      "expect_blocked": false,
+      "reference_sql": "SELECT s.first_name, s.last_name, s.cgpa, d.department_name \nFROM students s \nJOIN departments d ON s.department_id = d.department_id \nORDER BY s.cgpa DESC \nLIMIT 3;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT s.first_name, s.last_name, s.cgpa, d.department_name\nFROM students s\nJOIN departments d ON s.department_id = d.department_id\nORDER BY s.cgpa DESC\nLIMIT 3;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1260.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT s.first_name, s.last_name, s.cgpa, d.department_name \nFROM students s \nJOIN departments d ON s.department_id = d.department_id \nORDER BY s.cgpa DESC \nLIMIT 3;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1475.3,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Top 5 products by revenue",
+      "expect_blocked": false,
+      "reference_sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM order_items oi \nJOIN products p ON oi.product_id = p.product_id \nGROUP BY p.product_name \nORDER BY total_revenue DESC \nLIMIT 5;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue\nFROM products p\nJOIN order_items oi ON p.product_id = oi.product_id\nGROUP BY p.product_id, p.product_name\nORDER BY total_revenue DESC\nLIMIT 5;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 10748.0,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM order_items oi \nJOIN products p ON oi.product_id = p.product_id \nGROUP BY p.product_id, p.product_name \nORDER BY total_revenue DESC \nLIMIT 5;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1947.2,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Top 5 products by total sales revenue",
+      "expect_blocked": false,
+      "reference_sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM order_items oi \nJOIN products p ON oi.product_id = p.product_id \nGROUP BY p.product_id, p.product_name \nORDER BY total_revenue DESC \nLIMIT 5;",
+      "reference_ok": true,
+      "off": {
+        "sql": null,
+        "executed": false,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 27503.0,
+        "error": "HTTPException: 503: Google Gemini API error (503): Model gemini-flash-latest: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently exper"
+      },
+      "on": {
+        "sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM order_items oi \nJOIN products p ON oi.product_id = p.product_id \nGROUP BY p.product_id, p.product_name \nORDER BY total_revenue DESC \nLIMIT 5;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 19443.2,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Total enrollments per course sorted by most popular",
+      "expect_blocked": false,
+      "reference_sql": "SELECT c.course_code, c.course_title, COUNT(e.enrollment_id) AS total_enrollments \nFROM courses c \nLEFT JOIN enrollments e ON c.course_id = e.course_id \nGROUP BY c.course_id, c.course_code, c.course_title \nORDER BY total_enrollments DESC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT c.course_code, c.course_title, COUNT(e.enrollment_id) AS total_enrollments\nFROM courses c\nLEFT JOIN enrollments e ON c.course_id = e.course_id\nGROUP BY c.course_id, c.course_code, c.course_title\nORDER BY total_enrollments DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1566.2,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT c.course_code, c.course_title, COUNT(e.enrollment_id) AS total_enrollments \nFROM courses c \nLEFT JOIN enrollments e ON c.course_id = e.course_id \nGROUP BY c.course_id, c.course_code, c.course_title \nORDER BY total_enrollments DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1892.8,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Total headcount per corporate department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT cd.dept_name, COUNT(e.emp_id) AS total_headcount FROM corp_departments cd LEFT JOIN employees e ON cd.dept_id = e.dept_id GROUP BY cd.dept_id, cd.dept_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT cd.dept_name, COUNT(e.emp_id) AS total_headcount \nFROM corp_departments cd \nLEFT JOIN employees e ON cd.dept_id = e.dept_id \nGROUP BY cd.dept_name \nORDER BY total_headcount DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1645.8,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT cd.dept_name, COUNT(e.emp_id) AS total_headcount \nFROM corp_departments cd \nLEFT JOIN employees e ON cd.dept_id = e.dept_id \nGROUP BY cd.dept_id, cd.dept_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1948.7,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Total number of students per department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT d.department_name, COUNT(s.student_id) AS total_students \nFROM departments d \nLEFT JOIN students s ON d.department_id = s.department_id \nGROUP BY d.department_id, d.department_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT d.department_name, COUNT(s.student_id) AS total_students \nFROM departments d \nLEFT JOIN students s ON d.department_id = s.department_id \nGROUP BY d.department_id, d.department_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1318.1,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT d.department_name, COUNT(s.student_id) AS total_students FROM departments d LEFT JOIN students s ON d.department_id = s.department_id GROUP BY d.department_id, d.department_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1597.8,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Total revenue per product category",
+      "expect_blocked": false,
+      "reference_sql": "SELECT p.category, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM products p \nJOIN order_items oi ON p.product_id = oi.product_id \nGROUP BY p.category \nORDER BY total_revenue DESC;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT \n    p.category, \n    SUM(oi.quantity * oi.price_per_unit) AS total_revenue\nFROM products p\nJOIN order_items oi ON p.product_id = oi.product_id\nGROUP BY p.category;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2144.5,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT p.category, SUM(oi.quantity * oi.price_per_unit) AS total_revenue \nFROM products p \nJOIN order_items oi ON p.product_id = oi.product_id \nGROUP BY p.category \nORDER BY total_revenue DESC;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 2355.1,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "Total salary expenditure per department",
+      "expect_blocked": false,
+      "reference_sql": "SELECT d.department_name, SUM(i.salary) AS total_salary_expenditure \nFROM instructors i \nJOIN departments d ON i.department_id = d.department_id \nGROUP BY d.department_id, d.department_name;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT cd.dept_name, SUM(e.salary) AS total_expenditure \nFROM corp_departments cd \nJOIN employees e ON cd.dept_id = e.dept_id \nGROUP BY cd.dept_name \nORDER BY total_expenditure DESC;",
+        "executed": true,
+        "match": false,
+        "blocked": false,
+        "latency_ms": 2102.9,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT d.department_name, SUM(i.salary) AS total_salary_expenditure\nFROM instructors i\nJOIN departments d ON i.department_id = d.department_id\nGROUP BY d.department_id, d.department_name;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 14640.4,
+        "error": null,
+        "examples": 4
+      }
+    },
+    {
+      "prompt": "what all departsment I have",
+      "expect_blocked": false,
+      "reference_sql": "SELECT department_id, department_name, building, budget FROM departments;",
+      "reference_ok": true,
+      "off": {
+        "sql": "SELECT department_id, department_name, building, budget \nFROM departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 851.0,
+        "error": null,
+        "examples": 0
+      },
+      "on": {
+        "sql": "SELECT department_id, department_name, building, budget FROM departments;",
+        "executed": true,
+        "match": true,
+        "blocked": false,
+        "latency_ms": 1806.5,
+        "error": null,
+        "examples": 4
+      }
+    }
+  ]
+}

@@ -1,0 +1,366 @@
+[
+  {
+    "id": "project-1",
+    "question": "Show all students with CGPA greater than 8",
+    "sql": "SELECT student_id, first_name, last_name, cgpa FROM students WHERE cgpa > 8.0 ORDER BY cgpa DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-2",
+    "question": "Show instructor names and their department budget",
+    "sql": "SELECT i.name, d.department_name, d.budget FROM instructors i JOIN departments d ON i.department_id = d.department_id;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-3",
+    "question": "Show students who got grade A or A+ in any course",
+    "sql": "SELECT DISTINCT s.student_id, s.first_name, s.last_name FROM students s JOIN enrollments e ON s.student_id = e.student_id WHERE e.grade IN ('A', 'A+');",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-4",
+    "question": "Show all corporate departments with their locations",
+    "sql": "SELECT dept_id, dept_name, location FROM corp_departments;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-5",
+    "question": "List employees hired after 2020 with their department name",
+    "sql": "SELECT e.emp_name, e.job_title, cd.dept_name, e.hire_date FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id WHERE e.hire_date > '2020-01-01' ORDER BY e.hire_date ASC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-6",
+    "question": "Total salary expenditure per department",
+    "sql": "SELECT cd.dept_name, SUM(e.salary) AS total_expenditure FROM corp_departments cd JOIN employees e ON cd.dept_id = e.dept_id GROUP BY cd.dept_name ORDER BY total_expenditure DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-7",
+    "question": "Show the highest paid employee in each department",
+    "sql": "SELECT cd.dept_name, e.emp_name, e.salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id WHERE e.salary = (SELECT MAX(e2.salary) FROM employees e2 WHERE e2.dept_id = e.dept_id);",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-8",
+    "question": "What is the total revenue for each product",
+    "sql": "SELECT p.product_name, SUM(oi.quantity * oi.price_per_unit) AS total_revenue FROM order_items oi JOIN products p ON oi.product_id = p.product_id GROUP BY p.product_name ORDER BY total_revenue DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-9",
+    "question": "List the names of instructors who earn more than 90000",
+    "sql": "SELECT name, salary FROM instructors WHERE salary > 90000 ORDER BY salary DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-10",
+    "question": "How many students enrolled in each year",
+    "sql": "SELECT enrollment_year, COUNT(*) AS student_count FROM students GROUP BY enrollment_year ORDER BY enrollment_year;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-11",
+    "question": "Which course has the most credits",
+    "sql": "SELECT course_code, course_title, credits FROM courses ORDER BY credits DESC LIMIT 1;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-12",
+    "question": "Show the number of courses taught by each instructor",
+    "sql": "SELECT i.name, COUNT(c.course_id) AS course_count FROM instructors i LEFT JOIN courses c ON i.instructor_id = c.instructor_id GROUP BY i.instructor_id, i.name ORDER BY course_count DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-13",
+    "question": "List students who are not enrolled in any course",
+    "sql": "SELECT s.student_id, s.first_name, s.last_name FROM students s LEFT JOIN enrollments e ON s.student_id = e.student_id WHERE e.enrollment_id IS NULL;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-14",
+    "question": "Find the average grade point of students in each semester",
+    "sql": "SELECT semester, ROUND(AVG(grade_point), 2) AS avg_grade_point FROM enrollments GROUP BY semester ORDER BY semester;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-15",
+    "question": "Show the full name and email of students whose last name starts with S",
+    "sql": "SELECT first_name, last_name, email FROM students WHERE last_name LIKE 'S%' ORDER BY last_name;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-16",
+    "question": "Which departments have more than 15 students",
+    "sql": "SELECT d.department_name, COUNT(s.student_id) AS student_count FROM departments d JOIN students s ON d.department_id = s.department_id GROUP BY d.department_id, d.department_name HAVING COUNT(s.student_id) > 15;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-17",
+    "question": "List the courses that students took in Spring 2024 along with the student names",
+    "sql": "SELECT s.first_name, s.last_name, c.course_title FROM enrollments e JOIN students s ON e.student_id = s.student_id JOIN courses c ON e.course_id = c.course_id WHERE e.semester = 'Spring 2024';",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-18",
+    "question": "Which student has the highest CGPA in each department",
+    "sql": "SELECT d.department_name, s.first_name, s.last_name, s.cgpa FROM students s JOIN departments d ON s.department_id = d.department_id WHERE s.cgpa = (SELECT MAX(s2.cgpa) FROM students s2 WHERE s2.department_id = s.department_id);",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-19",
+    "question": "Count how many students received each grade",
+    "sql": "SELECT grade, COUNT(*) AS total FROM enrollments GROUP BY grade ORDER BY total DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-20",
+    "question": "Show instructors who do not teach any course",
+    "sql": "SELECT i.name, i.email FROM instructors i WHERE i.instructor_id NOT IN (SELECT instructor_id FROM courses WHERE instructor_id IS NOT NULL);",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-21",
+    "question": "What is the average salary of instructors in each department",
+    "sql": "SELECT d.department_name, ROUND(AVG(i.salary), 2) AS avg_salary FROM instructors i JOIN departments d ON i.department_id = d.department_id GROUP BY d.department_id, d.department_name;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-22",
+    "question": "List students with a CGPA above the overall average",
+    "sql": "SELECT first_name, last_name, cgpa FROM students WHERE cgpa > (SELECT AVG(cgpa) FROM students) ORDER BY cgpa DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-23",
+    "question": "Show the department with the largest budget",
+    "sql": "SELECT department_name, building, budget FROM departments ORDER BY budget DESC LIMIT 1;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-24",
+    "question": "Which students took more than 3 courses",
+    "sql": "SELECT s.first_name, s.last_name, COUNT(e.course_id) AS courses_taken FROM students s JOIN enrollments e ON s.student_id = e.student_id GROUP BY s.student_id, s.first_name, s.last_name HAVING COUNT(e.course_id) > 3;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-25",
+    "question": "Which customers are located in Germany or France",
+    "sql": "SELECT customer_name, city, country FROM customers WHERE country IN ('Germany', 'France');",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-26",
+    "question": "List products in the Audio category sorted by price",
+    "sql": "SELECT product_name, unit_price FROM products WHERE category = 'Audio' ORDER BY unit_price DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-27",
+    "question": "How many orders are in each status",
+    "sql": "SELECT status, COUNT(*) AS order_count FROM orders GROUP BY status;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-28",
+    "question": "Show customers who have never placed an order",
+    "sql": "SELECT c.customer_name, c.country FROM customers c LEFT JOIN orders o ON c.customer_id = o.customer_id WHERE o.order_id IS NULL;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-29",
+    "question": "What is the most expensive product in each category",
+    "sql": "SELECT category, product_name, unit_price FROM products p WHERE unit_price = (SELECT MAX(unit_price) FROM products WHERE category = p.category);",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-30",
+    "question": "List the product names and quantities for each order item",
+    "sql": "SELECT oi.order_id, p.product_name, oi.quantity, oi.price_per_unit FROM order_items oi JOIN products p ON oi.product_id = p.product_id ORDER BY oi.order_id;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-31",
+    "question": "What is the total value of stock for each category",
+    "sql": "SELECT category, SUM(unit_price * stock_quantity) AS stock_value FROM products GROUP BY category ORDER BY stock_value DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-32",
+    "question": "Show orders with a total amount above 1000 that are still processing",
+    "sql": "SELECT order_id, customer_id, order_date, total_amount FROM orders WHERE total_amount > 1000 AND status = 'Processing';",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-33",
+    "question": "Find the number of customers in each city",
+    "sql": "SELECT city, COUNT(*) AS customer_count FROM customers GROUP BY city ORDER BY customer_count DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-34",
+    "question": "Which customers spent more than 5000 in total",
+    "sql": "SELECT c.customer_name, SUM(o.total_amount) AS total_spent FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id, c.customer_name HAVING SUM(o.total_amount) > 5000 ORDER BY total_spent DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-35",
+    "question": "Show the latest order placed by each customer",
+    "sql": "SELECT c.customer_name, MAX(o.order_date) AS last_order_date FROM customers c JOIN orders o ON c.customer_id = o.customer_id GROUP BY c.customer_id, c.customer_name;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-36",
+    "question": "List shipped orders from March 2024",
+    "sql": "SELECT order_id, customer_id, order_date, total_amount FROM orders WHERE status = 'Shipped' AND order_date BETWEEN '2024-03-01' AND '2024-03-31';",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-37",
+    "question": "How many units of each product have been sold",
+    "sql": "SELECT p.product_name, SUM(oi.quantity) AS units_sold FROM products p JOIN order_items oi ON p.product_id = oi.product_id GROUP BY p.product_id, p.product_name ORDER BY units_sold DESC;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-38",
+    "question": "Which products have never been ordered",
+    "sql": "SELECT product_name, category FROM products WHERE product_id NOT IN (SELECT product_id FROM order_items);",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-39",
+    "question": "What is the cheapest and most expensive product price",
+    "sql": "SELECT MIN(unit_price) AS cheapest, MAX(unit_price) AS most_expensive FROM products;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-40",
+    "question": "Who is the most recently hired employee",
+    "sql": "SELECT emp_name, job_title, hire_date FROM employees ORDER BY hire_date DESC LIMIT 1;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-41",
+    "question": "List employees whose job title contains Engineer",
+    "sql": "SELECT emp_name, job_title FROM employees WHERE job_title LIKE '%Engineer%';",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-42",
+    "question": "Show the average salary of all employees",
+    "sql": "SELECT ROUND(AVG(salary), 2) AS average_salary FROM employees;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-43",
+    "question": "Which employees work in the Sales & Marketing department",
+    "sql": "SELECT e.emp_name, e.job_title FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id WHERE cd.dept_name = 'Sales & Marketing';",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-44",
+    "question": "List the top 3 highest paid employees with their department",
+    "sql": "SELECT e.emp_name, cd.dept_name, e.salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id ORDER BY e.salary DESC LIMIT 3;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-45",
+    "question": "How many employees were hired in each year",
+    "sql": "SELECT SUBSTR(hire_date, 1, 4) AS hire_year, COUNT(*) AS employees_hired FROM employees GROUP BY SUBSTR(hire_date, 1, 4) ORDER BY hire_year;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-46",
+    "question": "Which department has the highest average salary",
+    "sql": "SELECT cd.dept_name, ROUND(AVG(e.salary), 2) AS avg_salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id GROUP BY cd.dept_id, cd.dept_name ORDER BY avg_salary DESC LIMIT 1;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-47",
+    "question": "Show employees earning less than the company average salary",
+    "sql": "SELECT emp_name, salary FROM employees WHERE salary < (SELECT AVG(salary) FROM employees) ORDER BY salary;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-48",
+    "question": "List corporate departments that have no employees",
+    "sql": "SELECT dept_name, location FROM corp_departments WHERE dept_id NOT IN (SELECT dept_id FROM employees WHERE dept_id IS NOT NULL);",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-49",
+    "question": "Show the salary range minimum and maximum for each corporate department",
+    "sql": "SELECT cd.dept_name, MIN(e.salary) AS min_salary, MAX(e.salary) AS max_salary FROM employees e JOIN corp_departments cd ON e.dept_id = cd.dept_id GROUP BY cd.dept_id, cd.dept_name;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-50",
+    "question": "How many rows are in the students table",
+    "sql": "SELECT COUNT(*) AS total_students FROM students;",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-51",
+    "question": "Show the building of the department where Computer Science is located",
+    "sql": "SELECT department_name, building FROM departments WHERE department_name = 'Computer Science';",
+    "db_id": "project",
+    "source": "project"
+  },
+  {
+    "id": "project-52",
+    "question": "Which instructor teaches the course with code CS101",
+    "sql": "SELECT i.name, c.course_code, c.course_title FROM courses c JOIN instructors i ON c.instructor_id = i.instructor_id WHERE c.course_code = 'CS101';",
+    "db_id": "project",
+    "source": "project"
+  }
+]

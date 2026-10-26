@@ -1,84 +1,115 @@
 @import "tailwindcss";
 
 @layer base {
+  :root {
+    --bg-page: #141413;
+    --bg-surface: #1c1c1a;
+    --bg-surface-hover: #262624;
+    --bg-surface-active: #2e2e2a;
+    --border-subtle: #2b2b27;
+    --border-strong: #3d3d37;
+    --text-primary: #f3f3ee;
+    --text-secondary: #a1a19a;
+    --text-muted: #686861;
+    --accent-terracotta: #d97757;
+    --accent-terracotta-hover: #e28363;
+    --accent-terracotta-bg: rgba(217, 119, 87, 0.12);
+    --accent-terracotta-border: rgba(217, 119, 87, 0.3);
+  }
+
   body {
-    background-color: #07090e;
-    color: #f8fafc;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
   }
 }
 
-/* Premium Glassmorphism & Gradient System */
-.glass-panel {
-  background: rgba(13, 18, 30, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+/* Claude Workspace Glass & Card Surfaces */
+.claude-card {
+  background-color: #1c1c1a;
+  border: 1px solid #2b2b27;
+  border-radius: 0.875rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-card {
-  background: rgba(22, 30, 49, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+.claude-card:hover {
+  background-color: #242421;
+  border-color: #3d3d37;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.6);
 }
 
-.glass-card:hover {
-  border-color: rgba(99, 102, 241, 0.4);
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.15);
-  transform: translateY(-1px);
+.claude-card-interactive {
+  cursor: pointer;
 }
 
-.gradient-text-blue {
-  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #c084fc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+.claude-card-interactive:active {
+  transform: translateY(0) scale(0.99);
 }
 
-.gradient-text-emerald {
-  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+/* Claude Accent Terracotta Button */
+.btn-terracotta {
+  background-color: #d97757;
+  color: #ffffff;
+  font-weight: 500;
+  transition: all 0.15s ease;
 }
 
-.gradient-border-glow {
-  position: relative;
+.btn-terracotta:hover {
+  background-color: #e28363;
+  box-shadow: 0 4px 16px rgba(217, 119, 87, 0.35);
 }
 
-.gradient-border-glow::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 1rem;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.2));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+.btn-terracotta:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-.ambient-glow-blue {
-  position: absolute;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
-  pointer-events: none;
-  border-radius: 50%;
+/* Badge Tints (Claude Workspace Chips) */
+.badge-terracotta {
+  background-color: rgba(217, 119, 87, 0.14);
+  color: #f4a284;
+  border: 1px solid rgba(217, 119, 87, 0.3);
 }
 
-.ambient-glow-purple {
-  position: absolute;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
-  pointer-events: none;
-  border-radius: 50%;
+.badge-blue {
+  background-color: rgba(79, 128, 225, 0.14);
+  color: #93c5fd;
+  border: 1px solid rgba(79, 128, 225, 0.3);
+}
+
+.badge-green {
+  background-color: rgba(82, 163, 115, 0.14);
+  color: #86efac;
+  border: 1px solid rgba(82, 163, 115, 0.3);
+}
+
+.badge-purple {
+  background-color: rgba(160, 102, 217, 0.14);
+  color: #d8b4fe;
+  border: 1px solid rgba(160, 102, 217, 0.3);
+}
+
+.badge-amber {
+  background-color: rgba(229, 168, 59, 0.14);
+  color: #fde047;
+  border: 1px solid rgba(229, 168, 59, 0.3);
+}
+
+.badge-neutral {
+  background-color: #242421;
+  color: #a1a19a;
+  border: 1px solid #33332f;
+}
+
+/* Code block highlight box */
+.claude-code-box {
+  background-color: #111110;
+  border: 1px solid #282824;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 /* Custom Scrollbar */
@@ -88,14 +119,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #141413;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #2b2b27;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #3d3d37;
 }
+

@@ -4,16 +4,16 @@ services:
     container_name: text2sql-postgres
     restart: always
     environment:
-      POSTGRES_DB: text2sql_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: ${POSTGRES_DB:-text2sql_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgrespassword}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d text2sql_db"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-text2sql_db}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -24,17 +24,22 @@ services:
       dockerfile: ../docker/backend.Dockerfile
     container_name: text2sql-backend
     restart: always
+    env_file:
+      - .env
     environment:
       POSTGRES_SERVER: postgres
       POSTGRES_PORT: 5432
-      POSTGRES_DB: text2sql_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgrespassword
-      HF_MODEL_NAME: deepseek-ai/DeepSeek-Coder-33B-instruct
+      POSTGRES_DB: ${POSTGRES_DB:-text2sql_db}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgrespassword}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-flash-lite-latest}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
     ports:
       - "8000:8000"
     volumes:
       - ./backend/app:/app/app
+      - ./backend/benchmarks:/app/benchmarks   # ablation results written on the host
+      - ./backend/rag_store:/app/rag_store   # RAG index built on the host (scripts/build_rag_index.py)
     depends_on:
       postgres:
         condition: service_healthy
